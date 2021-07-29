@@ -2,8 +2,8 @@
 Analysis of the relationship between the number of COVID-19 confirmed cases and the policies in specific developing or undeveloped countries.  
 Visualizations of data about the number of confirmed cases and vaccinations.  
 Data used in this project is collected by 
--[Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19)
--[Our World in Data](https://github.com/owid/covid-19-data)
+- [Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19)
+- [Our World in Data](https://github.com/owid/covid-19-data)
 
 ## Outline:
 
