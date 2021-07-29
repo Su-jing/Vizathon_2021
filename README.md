@@ -1,5 +1,5 @@
 # Vizathon 2021
-Analysis of the relationship between the number of COVID-19 confirmed cases and the policies in specific developing or undeveloped countries.  
+Analysis of the relationship between the number of COVID-19 confirmed cases and the public health policies in specific developing or underdeveloped countries.  
 Visualizations of data about the number of confirmed cases and vaccinations.  
 Data used in this project is collected by 
 - [Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19)
