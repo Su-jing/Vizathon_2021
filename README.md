@@ -1,5 +1,5 @@
 # Vizathon 2021
-Analysis of the relationship between the number of Covid-19 confirmed cases and the policies in specific (undevelloped) country.  
+Analysis of the relationship between the number of COVID-19 confirmed cases and the policies in specific (undeveloped) country.  
 Visualizations of data about the number of confirmed cases and vaccinations.  
 Data used is collected by [the Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19)
 
@@ -12,9 +12,9 @@ Possible type of visualization (1):
 - Broken line graph?  
 - ...  
 
-**Part 2: Sourth Asian & Latin America**  
+**Part 2: South Asian & Latin America**  
 Analyze specific countries in these area, because:  
-- They are facing severe problems caused by Covid-19  
+- They are facing severe problems caused by COVID-19  
 - Seldom do people focus on them  
 - 我们乐意(不)...  
   
