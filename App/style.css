@@ -1,6 +1,10 @@
 h1 {
-  color: white;
   background-color: #07435B;
+  font-family: 'Source Sans Pro';
+  color: #fff; 
+  text-align: center;
+  /*background-image: url('texturebg.png');*/
+  padding: 20px
 }
 
 h2 {
@@ -20,8 +24,8 @@ h3 {
 
 p {
   font-size: 15px;
-  color: white;
-  background-color: #07435B;
+  color: #07435B;
+  background-color: white;
   font-family: arial;
 }
 

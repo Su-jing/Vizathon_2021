@@ -4,7 +4,10 @@ library(lintr)
 
 home <- tabPanel(
   h2("Home"),
-  titlePanel(h3("General intruction of app")),
+  titlePanel(h3("General introction of app")),
+  p(span("Globally, ", style = "color: red"), "as of 6:17pm CEST, 29 July 2021, there have been 195,886,929 
+    confirmed cases of COVID-19, including 4,189,148 deaths, reported to WHO. 
+    As of 28 July 2021, a total of 3,839,816,037 vaccine doses have been administered.")
   # sidebarLayout(
   #   sidebarPanel(
   #     # a `radioButtons` widget, the default choice is "Professional"
@@ -160,14 +163,11 @@ page_four <- tabPanel(
 
 
 ui <- shinyUI(fluidPage(
+  p("By Ryan & Wuwei", style = "font-size: 10px; text-align: left"),
   h1(span("Covid-19", style = "font-weight: 300; color: red",), 
-     "Vulnerability Assessment",
-     style = "font-family: 'Source Sans Pro';
-        color: #fff; text-align: center;
-        background-image: url('texturebg.png');
-        padding: 20px"),
+     "Vulnerability Assessment"),
   includeCSS("style.css"),
-    tabsetPanel(
+  tabsetPanel(
     home,
     page_one,
     page_two,

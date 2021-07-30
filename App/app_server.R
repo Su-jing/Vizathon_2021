@@ -3,6 +3,11 @@ library(ggplot2)
 library(dplyr)
 library(lintr)
 
+daily_cases <- read.csv("data/WHO-COVID-19-global-data_comformed_death_by_date.csv", stringsAsFactors = FALSE)
+cumu_cases <- read.csv("data/WHO-COVID-19-global-table-data_cumulative_confirmed_death_by_country.csv", stringsAsFactors = FALSE)
+vaccine <- read.csv("data/WHO-vaccination-data.csv", stringsAsFactors = FALSE)
+
+
 server <- function(input, output) {
   # page one
   # render the greeting text

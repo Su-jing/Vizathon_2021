@@ -13,6 +13,7 @@ This project focuses on analyzing the direct influences of COVID-19 outbreak on 
 Data used in this project is collected by 
 - [Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19)
 - [Our World in Data](https://github.com/owid/covid-19-data)
+- [WHO](https://covid19.who.int/info/)
 
 ## Outline:
 
