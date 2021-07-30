@@ -1,7 +1,7 @@
 # Vizathon 2021
 
 ## Updates
-- Shiny App is implemented in folder **Challenge_2_App**  
+- Shiny App is implemented in folder **App**  
 - For UI styling in file style.css (just modify it)  
 - For the app layout, in app_ui.R
 - For actual input data and output to users, in app_server.R

@@ -1,0 +1,42 @@
+h1 {
+  color: white;
+  background-color: #07435B;
+}
+
+h2 {
+  font-size: 15px;
+  color: #07435B;
+  font-family: arial;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 25px;
+  color: #07435B;
+  background-color: white;
+  font-family: arial;
+  font-weight: bold;
+}
+
+p {
+  font-size: 15px;
+  color: white;
+  background-color: #07435B;
+  font-family: arial;
+}
+
+strong {
+  font-size: 15px;
+  color: red;
+}
+
+body {
+  background-color: white;
+}
+
+ol {
+  font-size: 15px;
+  color: white;
+  background-color: #07435B;
+  font-family: arial;
+}
