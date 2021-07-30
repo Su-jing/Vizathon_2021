@@ -8,22 +8,26 @@
 
 
 ---  
-Analysis of the relationship between the number of COVID-19 confirmed cases and the public health policies in specific developing or underdeveloped countries.  
-Visualizations of data about the number of confirmed cases and vaccinations.  
+This project focuses on analyzing the direct influences of COVID-19 outbreak on public health from both a global and a country perspectives. We also take second-order impacts into account and come up with a evaluation framework to assess the vulnerability of each country during COVID-19. Finally, we would use a map to show the assessment results for each country and conclude what we find.
+ 
 Data used in this project is collected by 
 - [Johns Hopkins University Center for Systems Science and Engineering (JHU CSSE)](https://github.com/CSSEGISandData/COVID-19)
 - [Our World in Data](https://github.com/owid/covid-19-data)
 
 ## Outline:
 
-**Part 1: World Overview**  
-Give an overview about the cumulative number of confirmed cases and death cases in each country around the world.  
+**Part 1: Direct Influences and Global Trends**  
+In this part, we will show how COVID-19 outbreak affects the public health globally by visualizing and interpreting trends of confirmed cases, mortality rate, and vaccination coverage rate all over the world, respectively.
+
+- Note that we process the raw data by dividing it by the population size of the corresponding country or area in order to eliminate the possible effect of different population sizes on our visualizations.
+- Please do mention and explain how we would choose the weights for confirmed-cases rate, mortality rate, and unvaccinated rate. And the weights and these three factors would be used in the conclusion part.
+
 Possible type of visualization (1):  
 - World map?  
 - Line graph?  
-- ...  
+- heat map? (the map that uses colors to indicate the number of cases)  
 
-**Part 2: South Asia & Latin America**  
+**Part 2: Second-order Impacts**  
 Analyze specific countries in these areas, because:  
 - They are facing severe problems caused by COVID-19. 
 - Fewer news reports and detailed analysis are about these countries.
