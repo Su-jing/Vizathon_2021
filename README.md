@@ -1,4 +1,13 @@
 # Vizathon 2021
+
+## Updates
+- Shiny App is implemented in folder **Challenge_2_App**  
+- For UI styling in file style.css (just modify it)  
+- For the app layout, in app_ui.R
+- For actual input data and output to users, in app_server.R
+
+
+---  
 Analysis of the relationship between the number of COVID-19 confirmed cases and the public health policies in specific developing or underdeveloped countries.  
 Visualizations of data about the number of confirmed cases and vaccinations.  
 Data used in this project is collected by 
@@ -32,7 +41,6 @@ A few insights and takeaways...
 
 
 ## Current problems to solve  
-Which to use, shiny or rmarkdown?  
 What plots to give in part 2?  
 TBC...  
 
