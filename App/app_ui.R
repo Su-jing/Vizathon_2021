@@ -43,26 +43,26 @@ page_one <- tabPanel(
   sidebarLayout(
     sidebarPanel(
       # a `radioButtons` widget, the default choice is "Sure!"
-      radioButtons(
-        inputId = "emotion",
-        label = "Hi, are you excited to be going to use this app?",
-        choices = list("Sure!" = "Thank you!",
-                       "Emm...not really." =
-                         "Hope you could change your idea later:)"),
-        selected = "Thank you!"
-      ),
-      textOutput("greeting"),
+      # radioButtons(
+      #   inputId = "emotion",
+      #   label = "Hi, are you excited to be going to use this app?",
+      #   choices = list("Sure!" = "Thank you!",
+      #                  "Emm...not really." =
+      #                    "Hope you could change your idea later:)"),
+      #   selected = "Thank you!"
+      # ),
+      # textOutput("greeting"),
       # a `selectInput` widget, the default choice is "Other Races"
       selectInput(
-        inputId = "race",
-        label = "Choose a race of interest here:",
-        choices = c("Whites", "Blacks", "American_Indians",
-                    "Asians", "Other_Races"),
-        selected = "Other_Races"
+        inputId = "caseType",
+        label = "Choose type of data you are interested in:",
+        choices = c("Confirmed", "Death", "Recovered", "Vaccined"),
+        selected = "Confirmed"
       )
     ),
     mainPanel(
-      plotOutput("race_pop_plot")
+      plotOutput("world_case_map"),
+      plotlyOutput("inter_world_case_map")
     )
   )
 )

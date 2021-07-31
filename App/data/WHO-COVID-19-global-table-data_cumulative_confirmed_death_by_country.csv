@@ -1,5 +1,5 @@
-﻿Name,WHO Region,Cases - cumulative total,Cases - cumulative total per 100000 population,Cases - newly reported in last 7 days,Cases - newly reported in last 7 days per 100000 population,Cases - newly reported in last 24 hours,Deaths - cumulative total,Deaths - cumulative total per 100000 population,Deaths - newly reported in last 7 days,Deaths - newly reported in last 7 days per 100000 population,Deaths - newly reported in last 24 hours
-Global,,195886929,2513.1299599189106,3905603,50.10690586123369,595149,4189148,53.74464441848687,60949,0.7819447612407966,8804,
+Name,WHO.Region,Cases.cumulative.total,Cases.cumulative.total.per.100000.population,Cases.newly.reported.in.last.7.days,Cases.newly.reported.in.last.7.days.per.100000.population,Cases.newly.reported.in.last.24.hours,Deaths.cumulative.total,Deaths.cumulative.total.per.100000.population,Deaths.newly.reported.in.last.7.days,Deaths.newly.reported.in.last.7.days.per.100000.population,Deaths.newly.reported.in.last.24 hours
+Global,,195886929,2513.12996,3905603,50.10690586,595149,4189148,53.74464442,60949,0.781944761,8804
 United States of America,Americas,34473788,10414.96,436283,131.81,82375,606686,183.29,2151,0.65,423
 India,South-East Asia,31528114,2284.64,270394,19.59,43509,422662,30.63,3675,0.27,640
 Brazil,Americas,19749073,9291.08,329636,155.08,41411,551835,259.61,7655,3.6,1333
@@ -119,7 +119,7 @@ Singapore,Western Pacific,64589,1104.02,968,16.55,136,37,0.63,1,0.02,0
 Senegal,Africa,59286,354.07,4989,29.8,763,1307,7.81,61,0.36,7
 Jamaica,Americas,52322,1766.94,918,31,181,1182,39.92,19,0.64,3
 Malawi,Africa,50381,263.36,4916,25.7,629,1561,8.16,172,0.9,21
-Côte d’Ivoire,Africa,49775,188.7,487,1.85,76,326,1.24,4,0.02,0
+Côte d__voire,Africa,49775,188.7,487,1.85,76,326,1.24,4,0.02,0
 Democratic Republic of the Congo,Africa,48970,54.68,2104,2.35,202,1023,1.14,3,0,0
 Madagascar,Africa,42685,154.15,57,0.21,8,946,3.42,5,0.02,1
 Angola,Africa,42288,128.67,1061,3.23,178,1000,3.04,27,0.08,6
