@@ -144,6 +144,30 @@ page_two <- tabPanel(
       plotOutput("median_age_plot"),
       textOutput("median_age_analysis")
     )
+  ),
+  
+  # NCD
+  h3("3) NCDs blablablablablabla", style = "font-size:20px;"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons(
+        inputId = "type3",
+        label = "Choose one of the following visualizations:",
+        choices = c("Global trend of Non-communicable Diseases (1990-2017)", 
+                    "Histogram summary of data for each year"),
+        selected = "Global trend of Non-communicable Diseases (1990-2017)"
+      ),
+      sliderInput(inputId = "year3",
+                  label = "For histogram of each year,
+      choose a year below or click the play button at the bottom right corner:", 
+                  value = 1990, min = 1990,
+                  max = 2017, step = 1, sep = "", animate = TRUE
+      )
+    ),
+    mainPanel(
+      plotOutput("NCD_plot"),
+      textOutput("NCD_analysis")
+    )
   )
 )
 
@@ -213,7 +237,7 @@ page_four <- tabPanel(
 ui <- shinyUI(fluidPage(
   p("By Ryan & Wuwei", style = "font-size: 10px; text-align: left"),
   h1(span("Covid-19", style = "font-weight: 300; color: red",), 
-     "Vulnerability Assessment"),
+     "Trend Visualization and Vulnerability Assessment"),
   includeCSS("style.css"),
   tabsetPanel(
     home,
