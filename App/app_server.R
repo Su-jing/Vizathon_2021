@@ -104,7 +104,7 @@ server <- function(input, output) {
         labs(title = paste("Histogram of the Percentage of People with Mental and
 Substance Use Disorders at", y),
              x = "Percentage",
-             y = "Count") +
+             y = "Count (the number of countries)") +
         xlim(8, 20) + 
         ylim(0, 65)
     }
@@ -137,8 +137,8 @@ Substance Use Disorders at", y),
         geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
         theme_bw(base_size = 13) +
         labs(title = paste("Histogram of the Median Age of People at", y),
-             x = "Age",
-             y = "Count") +
+             x = "Median Age",
+             y = "Count (the number of countries)") +
         xlim(10, 55) +
         ylim(0, 50)
     }
