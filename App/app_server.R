@@ -2,11 +2,12 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 library(lintr)
+library(plotly)
 
 daily_cases <- read.csv("data/WHO-COVID-19-global-data_comformed_death_by_date.csv", stringsAsFactors = FALSE)
 cumu_cases <- read.csv("data/WHO-COVID-19-global-table-data_cumulative_confirmed_death_by_country.csv", stringsAsFactors = FALSE)
 vaccine <- read.csv("data/WHO-vaccination-data.csv", stringsAsFactors = FALSE)
-
+mental_health <- read.csv("data/mental_health_by_country.csv")
 
 server <- function(input, output) {
   # page one
@@ -73,5 +74,37 @@ server <- function(input, output) {
         y = "Percent_of_Adult_Poverty",
         color = "Percent_of_Adult_Poverty"
       )
+  })
+  
+  # global average data
+  mental_health_global <- mental_health[, -1]
+  mental_health_global <- data.frame("avg" = colMeans(mental_health_global))
+  output$mental_health_plot <- renderPlot({
+    # line plot for mental health to show trend
+    if (input$type1 == "Global trend of mental health (1992-2017)") {
+      ggplot(data = mental_health_global, 
+             aes(x = seq(1992,2017, by=1), y = avg)) +
+        geom_point(color = "black", size = 2.5) +
+        geom_line(size = 1, color = "blue") +
+        labs(title = "Average Percentage of People with Mental and Substance Use Disorders", 
+             x = "Year", y = "Percentage") +
+        scale_x_continuous(breaks = seq(1992,2017, by=2)) +
+        theme_bw(base_size = 13)
+    } else {
+      # Histograms for mental health by each year
+      y = input$year1
+      ggplot(data = mental_health, aes(x = mental_health[,y-1990])) +
+        geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
+        theme_bw(base_size = 13) +
+        labs(title = paste("Histogram of the Percentage of People with Mental and
+Substance Use Disorders at", y),
+             x = "Percentage",
+             y = "Count")
+    }
+  })
+  
+  # mental health analysis
+  output$mental_health_analysis <- renderText({
+    "blablabla (analysis aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)"
   })
 }

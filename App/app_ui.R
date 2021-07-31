@@ -96,6 +96,29 @@ page_two <- tabPanel(
     mainPanel(
       plotOutput("comparison_plot")
     )
+  ),
+  
+  h3("1) mental health blablablablablabla", style = "font-size:20px;"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons(
+        inputId = "type1",
+        label = "Choose one of the following visualizations:",
+        choices = c("Global trend of mental health (1992-2017)", 
+                    "Histogram summary of data for each year"),
+        selected = "Global trend of mental health (1992-2017)"
+      ),
+      sliderInput(inputId = "year1",
+      label = "For histogram of each year,
+      choose a year below or click the play button at the bottom right corner:", 
+      value = 1997, min = 1997,
+      max = 2017, step = 1, sep = "", animate = TRUE
+      )
+    ),
+    mainPanel(
+      plotOutput("mental_health_plot"),
+      textOutput("mental_health_analysis")
+    )
   )
 )
 
