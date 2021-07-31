@@ -16,6 +16,7 @@ confirm <- read.csv("data/time_series_covid19_confirmed_global.csv", stringsAsFa
 death <- read.csv("data/time_series_covid19_deaths_global.csv", stringsAsFactors = FALSE)
 vaccine <- read.csv("data/WHO-vaccination-data.csv", stringsAsFactors = FALSE)
 
+
 # pre process of dfs
 temp_r_total <- recover %>% 
   select(Country.Region, Total.recover) %>% 
@@ -52,8 +53,10 @@ num_cases_1 <- merge(num_cases_1, temp_v_total,
 names(num_cases_1) <- c("Country", "Recovered", "Confirmed", "Death", "Vaccined")
 
 
+mental_health <- read.csv("data/mental_health_by_country.csv")
+median_age <- read.csv("data/median_age_by_country.csv")
+NCD <- read.csv("data/NCD_by_country.csv")
 
-dat <- countryExData
 
 server <- function(input, output) {
   # page one
@@ -156,6 +159,9 @@ server <- function(input, output) {
   #   )
   # })
 
+  
+  
+  
   # page two
   # render the suggestion text
   output$suggestion <- renderText({
@@ -188,5 +194,108 @@ server <- function(input, output) {
         y = "Percent_of_Adult_Poverty",
         color = "Percent_of_Adult_Poverty"
       )
+  })
+  
+  # global average data for public health
+  mental_health_global <- mental_health[, -1]
+  mental_health_global <- data.frame("avg" = colMeans(mental_health_global))
+  output$mental_health_plot <- renderPlot({
+    # line plot for mental health to show trend
+    if (input$type1 == "Global trend of mental health (1992-2017)") {
+      ggplot(data = mental_health_global, 
+             aes(x = seq(1992,2017, by=1), y = avg)) +
+        geom_point(color = "black", size = 2.5) +
+        geom_line(size = 1, color = "blue") +
+        labs(title = "Average Percentage of People with Mental and Substance Use Disorders
+(Global Trend 1992-2017)", 
+             x = "Year", y = "Percentage (%)") +
+        scale_x_continuous(breaks = seq(1992,2017, by=2)) +
+        theme_bw(base_size = 13)
+    } else {
+      # Histograms for mental health by each year
+      y = input$year1
+      ggplot(data = mental_health, aes(x = mental_health[,y-1990])) +
+        geom_histogram(binwidth = 0.5, color = "black", fill = "lightblue") +
+        theme_bw(base_size = 13) +
+        labs(title = paste("Histogram of the Percentage of People with Mental and
+Substance Use Disorders at", y),
+             x = "Percentage (%)",
+             y = "Count (the number of countries)") +
+        xlim(8, 20) + 
+        ylim(0, 65)
+    }
+  })
+  
+  # mental health analysis
+  output$mental_health_analysis <- renderText({
+    "blablabla (analysis aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)"
+  })
+  
+  
+  # global average data for median age
+  median_age_global <- median_age[, -1]
+  median_age_global <- data.frame("avg" = colMeans(median_age_global))
+  output$median_age_plot <- renderPlot({
+    # line plot for median age to show trend
+    if (input$type2 == "Global trend of median age (1950-2050)") {
+      ggplot(data = median_age_global, 
+             aes(x = seq(1950,2050, by=5), y = avg)) +
+        geom_point(color = "black", size = 2.5) +
+        geom_line(size = 1, color = "blue") +
+        labs(title = "Average Median Age of People (Global Trend 1950-2050)", 
+             x = "Year", y = "Age") +
+        scale_x_continuous(breaks = seq(1950,2050, by=10)) +
+        theme_bw(base_size = 13)
+    } else {
+      # Histograms for mental health by each year
+      y = input$year2
+      ggplot(data = median_age, aes(x = median_age[,(y-1950)/5+2])) +
+        geom_histogram(binwidth = 1, color = "black", fill = "lightblue") +
+        theme_bw(base_size = 13) +
+        labs(title = paste("Histogram of the Median Age of People at", y),
+             x = "Median Age",
+             y = "Count (the number of countries)") +
+        xlim(10, 55) +
+        ylim(0, 50)
+    }
+  })
+  
+  # mental health analysis
+  output$median_age_analysis <- renderText({
+    "blablabla (analysis aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)"
+  })
+  
+  
+  # global average data for NCD
+  NCD_global <- NCD[, -1]
+  NCD_global <- data.frame("avg" = colMeans(NCD_global))
+  output$NCD_plot <- renderPlot({
+    # line plot for NCD to show trend
+    if (input$type3 == "Global trend of Non-communicable Diseases (1990-2017)") {
+      ggplot(data = NCD_global, 
+             aes(x = seq(1990,2017, by=1), y = avg)) +
+        geom_point(color = "black", size = 2.5) +
+        geom_line(size = 1, color = "blue") +
+        labs(title = "Average DALY Rates of NCDs (Global Trend 1990-2017)", 
+             x = "Year", y = "DALY Rates (years)") +
+        scale_x_continuous(breaks = seq(1990,2017, by=2)) +
+        theme_bw(base_size = 13)
+    } else {
+      # Histograms for mental health by each year
+      y = input$year3
+      ggplot(data = NCD, aes(x = NCD[,y-1988])) +
+        geom_histogram(binwidth = 1000, color = "black", fill = "lightblue") +
+        theme_bw(base_size = 13) +
+        labs(title = paste("Histogram of DALY Rates of NCDs at", y),
+             x = "DALY Rates (years)",
+             y = "Count (the number of countries)") +
+        xlim(5000, 50000) +
+        ylim(0, 30)
+    }
+  })
+  
+  # NCD analysis
+  output$NCD_analysis <- renderText({
+    "blablabla (analysis aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)"
   })
 }

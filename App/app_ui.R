@@ -96,6 +96,78 @@ page_two <- tabPanel(
     mainPanel(
       plotOutput("comparison_plot")
     )
+  ),
+  
+  # Mental Health
+  h3("1) mental health blablablablablabla", style = "font-size:20px;"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons(
+        inputId = "type1",
+        label = "Choose one of the following visualizations:",
+        choices = c("Global trend of mental health (1992-2017)", 
+                    "Histogram summary of data for each year"),
+        selected = "Global trend of mental health (1992-2017)"
+      ),
+      sliderInput(inputId = "year1",
+      label = "For histogram of each year,
+      choose a year below or click the play button at the bottom right corner:", 
+      value = 1992, min = 1992,
+      max = 2017, step = 1, sep = "", animate = TRUE
+      )
+    ),
+    mainPanel(
+      plotOutput("mental_health_plot"),
+      textOutput("mental_health_analysis")
+    )
+  ),
+  
+  # Median Age
+  h3("2) median age blablablablablabla", style = "font-size:20px;"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons(
+        inputId = "type2",
+        label = "Choose one of the following visualizations:",
+        choices = c("Global trend of median age (1950-2050)", 
+                    "Histogram summary of data for each year"),
+        selected = "Global trend of median age (1950-2050)"
+      ),
+      sliderInput(inputId = "year2",
+                  label = "For histogram of each year,
+      choose a year below or click the play button at the bottom right corner:", 
+                  value = 1950, min = 1950,
+                  max = 2050, step = 5, sep = "", animate = TRUE
+      )
+    ),
+    mainPanel(
+      plotOutput("median_age_plot"),
+      textOutput("median_age_analysis")
+    )
+  ),
+  
+  # NCD
+  h3("3) NCDs blablablablablabla", style = "font-size:20px;"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons(
+        inputId = "type3",
+        label = "Choose one of the following visualizations:",
+        choices = c("Global trend of Non-communicable Diseases (1990-2017)", 
+                    "Histogram summary of data for each year"),
+        selected = "Global trend of Non-communicable Diseases (1990-2017)"
+      ),
+      sliderInput(inputId = "year3",
+                  label = "For histogram of each year,
+      choose a year below or click the play button at the bottom right corner:", 
+                  value = 1990, min = 1990,
+                  max = 2017, step = 1, sep = "", animate = TRUE
+      )
+    ),
+    mainPanel(
+      plotOutput("NCD_plot"),
+      textOutput("NCD_analysis")
+    )
   )
 )
 
@@ -165,7 +237,7 @@ page_four <- tabPanel(
 ui <- shinyUI(fluidPage(
   p("By Ryan & Wuwei", style = "font-size: 10px; text-align: left"),
   h1(span("Covid-19", style = "font-weight: 300; color: red",), 
-     "Vulnerability Assessment"),
+     "Trend Visualization and Vulnerability Assessment"),
   includeCSS("style.css"),
   tabsetPanel(
     home,
