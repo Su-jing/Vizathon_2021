@@ -98,6 +98,7 @@ page_two <- tabPanel(
     )
   ),
   
+  # Mental Health
   h3("1) mental health blablablablablabla", style = "font-size:20px;"),
   sidebarLayout(
     sidebarPanel(
@@ -111,13 +112,37 @@ page_two <- tabPanel(
       sliderInput(inputId = "year1",
       label = "For histogram of each year,
       choose a year below or click the play button at the bottom right corner:", 
-      value = 1997, min = 1997,
+      value = 1992, min = 1992,
       max = 2017, step = 1, sep = "", animate = TRUE
       )
     ),
     mainPanel(
       plotOutput("mental_health_plot"),
       textOutput("mental_health_analysis")
+    )
+  ),
+  
+  # Median Age
+  h3("2) median age blablablablablabla", style = "font-size:20px;"),
+  sidebarLayout(
+    sidebarPanel(
+      radioButtons(
+        inputId = "type2",
+        label = "Choose one of the following visualizations:",
+        choices = c("Global trend of median age (1950-2050)", 
+                    "Histogram summary of data for each year"),
+        selected = "Global trend of median age (1950-2050)"
+      ),
+      sliderInput(inputId = "year2",
+                  label = "For histogram of each year,
+      choose a year below or click the play button at the bottom right corner:", 
+                  value = 1950, min = 1950,
+                  max = 2050, step = 5, sep = "", animate = TRUE
+      )
+    ),
+    mainPanel(
+      plotOutput("median_age_plot"),
+      textOutput("median_age_analysis")
     )
   )
 )
