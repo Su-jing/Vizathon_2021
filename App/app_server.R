@@ -55,6 +55,12 @@ mental_health <- read.csv("data/mental_health_by_country.csv")
 median_age <- read.csv("data/median_age_by_country.csv")
 NCD <- read.csv("data/NCD_by_country.csv")
 
+# Used for data merge
+NCD2 <- read.csv("data/NCD_by_country2.csv")
+mental_health2 <- read.csv("data/mental_health_by_country2.csv")
+median_age2 <- read.csv("data/median_age_by_country2.csv")
+
+
 
 server <- function(input, output) {
   # page one
@@ -304,5 +310,20 @@ Substance Use Disorders at", y),
   output$NCD_analysis <- renderText({
     "blablabla (analysis aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)"
   })
+  
+  
+  
+  
+  # merge all tables together. total is the final result!!!
+  temp_NCD <- NCD2 %>% select(iso, X2017)
+  total <- merge(num_cases_1, temp_NCD, by.x = "iso", by.y = "iso")
+  total <- total[c(1:184),]
+  total <- rename(total, NCD_value = X2017)
+  temp_mental_health <- mental_health2 %>% select(Code, percent)
+  total <- merge(total, temp_mental_health, by.x = "iso", by.y = "Code")
+  total <- rename(total, mental_health_percent = percent)
+  temp_median_age <- median_age2 %>% select(Code, median)
+  total <- merge(total, temp_median_age, by.x = "iso", by.y = "Code")
+  total <- rename(total, median_age = median)
 }
 
