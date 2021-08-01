@@ -172,7 +172,8 @@ page_three <- tabPanel(
       plotOutput("inter_country_pie"),
       p("blahhhhhhhhhhhhhhhh")
     )
-  )
+  ),
+  tableOutput('table')
 )
 
 

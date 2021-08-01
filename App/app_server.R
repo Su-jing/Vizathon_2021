@@ -189,16 +189,14 @@ server <- function(input, output) {
     
     #draw a plot
     p <- ggplot(df_all, aes(x=Date, group = 1)) +
-      geom_area(size = 0.5, color = "pink", fill = "#fee3db", aes(y=Confirmed)) +
-      geom_area(size = 0.5, color = "orange", fill = "#fee3ca", aes(y=Recovered)) +
-      geom_area(size = 0.5, color = "lightgreen",  fill = "#e6f5de", aes(y=Death)) +
+      geom_area(size = 0.5, color = "white", fill = "#f874a5", aes(y=Confirmed)) +
+      geom_area(size = 0.5, color = "white", fill = "#fec28c", aes(y=Recovered)) +
+      geom_area(size = 0.5, color = "white",  fill = "#08589e", aes(y=Death)) +
       labs(title = paste0("Number of Cases in ", input$country), 
            x = "Date", y = "Number") + theme_light()
     ggplotly(p)
 
   })
-  
-  
   
   
   # page two
@@ -366,13 +364,41 @@ Substance Use Disorders at", y),
         Factor=names(pie)[2:7],
         Value=as.numeric(as.vector(pie[1,2:7]))
       )
-      ggplot(pie2, aes(x="", y=Value, fill=Factor)) +
-        geom_bar(stat="identity", width=1, color="white") +
-        coord_polar("y", start=0) +
+      # ggplot(pie2, aes(x="", y=Value, fill=Factor)) +
+      #   geom_bar(stat="identity", width=1, color="white") +
+      #   coord_polar("y", start=0) +
+      #   theme_void() +
+      #   scale_fill_brewer(palette = "Greens", 
+      #                     labels = paste0(pie2$Factor, " ", format(round(pie2$Value*100, 2), nsmall = 2))) +
+      #   theme(legend.position = "right")
+      
+      
+      # Compute percentages
+      pie2$fraction = pie2$Value / sum(pie2$Value)
+      # Compute the cumulative percentages (top of each rectangle)
+      pie2$ymax = cumsum(pie2$fraction)
+      # Compute the bottom of each rectangle
+      pie2$ymin = c(0, head(pie2$ymax, n=-1))
+      # Make the plot
+      ggplot(pie2, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Factor)) +
+        geom_rect() +
+        coord_polar(theta="y") +
+        xlim(c(1, 4)) +
         theme_void() +
         scale_fill_brewer(palette = "Greens", 
                           labels = paste0(pie2$Factor, " ", format(round(pie2$Value*100, 2), nsmall = 2))) +
         theme(legend.position = "right")
+     
   })
+  
+  #rearrange total in asce order by vulnerability and get top 10
+  top <- total %>%
+    arrange(desc(Vulnerability)) %>%
+    slice_head(n=10) %>%
+    select(Country, Vulnerability)
+  top <- as.data.frame(t(top))
+  names(top) = top[1,]
+  output$table <- renderTable(top[2,])
+  
 }
 
