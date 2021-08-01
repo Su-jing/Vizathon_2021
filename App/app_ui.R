@@ -19,7 +19,7 @@ home <- tabPanel(
     As of 28 July 2021, a total of 3,839,816,037 vaccine doses have been administered."),
   h3("1. Covid-19 Overview", style = "font-size:20px;"),
   p("In page 1, we make visualizations for trend of the COVID-19 pandemic from
-    a global perspective and a specific country perspective.
+    both a global perspective and a specific country perspective.
     We also analyze the number of ", span("confirmed cases, death cases, and cured 
     cases",style="color: red"),", respectively, with ", span("a weight assigned to each one", style = "color: red"),
     " , which is used for vulnerability assessment in page 3."),
@@ -31,9 +31,7 @@ home <- tabPanel(
     " to it, which is used for vulnerability assessment in page 3."),
   h3("3. Vulnerability Assessment", style = "font-size:20px;"),
   p("In page 3, for each country, we use the following formula to assess vulnerability: "),
-  p(span("[(confirmation rate*0.25 + death rate*0.25 + 
-                       NCDs rate*0.15 + mental disorders rate*0.15 + aging population rate*0.2) * 0.5 
-                       + cure rate*(-0.5)] * 100%", style="color: red")),
+  uiOutput("f"),
   p("where 0.25, 0.25, 0.15, 0.15, 0.2, and -0.5 are weights we used for these 6 factors 
     in our evaluation framework, which have detailed explainations in page 1 and 2."),
   p("The final result of vulnerability of each country is a number floating around 0.
@@ -108,9 +106,7 @@ page_one <- tabPanel(
 
 page_two <- tabPanel(
   h2("Second-order Impacts"),
-  titlePanel(h3("For the groups of people being more vulnerable during the 
-  second-order impacts of Covid-19 pandemic, inspect from three aspects: 
-  mental health, aging population, and history of NCDs with analysis.")),
+  titlePanel(h3("Second-oder Impacts of COVID-19 Pandemic")),
   
   # Mental Health
   h3("1) Mental Health", style = "font-size:20px;"),
@@ -260,9 +256,15 @@ page_two <- tabPanel(
 
 page_three <- tabPanel(
   h2("Vulnerability Assessment"),
-  titlePanel(h3("The vulnerability assessment of each country, using data/statistics from previous sections")),
+  titlePanel(h3("The Vulnerability Assessment of Each Country")),
   plotlyOutput("inter_world_v_map"),
-  p("xxxxx"),
+  p("Using the formula"),
+  uiOutput("f"),
+  p("we make this heat map with
+    a number result representing the vulnerability associated with each country.
+    From this map, we can see that USA is the most vulnerable country based
+    on the factors we consider. Also, the countries in Eastern Hemisphere seems 
+    to be less vulnerable than the countries in Western Hemisphere."),
   sidebarLayout(
     sidebarPanel(
       selectInput(
@@ -271,11 +273,13 @@ page_three <- tabPanel(
         choices = total$Country,
         selected = "US"
       ),
-      p("The pie chart shows.....")
+      p("This pie chart shows the percentage distribution of the 6 factors in
+        our vulnerability assessment framework for each country.")
     ),
     mainPanel(
       plotOutput("inter_country_pie"),
-      p("blahhhhhhhhhhhhhhhh")
+      h3("Table of Top 10 Vulnerable Countries During COVID-19 Pandemic", 
+         style = "font-size: 15px")
     )
   ),
   tableOutput('table')
