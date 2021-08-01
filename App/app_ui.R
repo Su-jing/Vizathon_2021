@@ -31,7 +31,6 @@ home <- tabPanel(
     " to it, which is used for vulnerability assessment in page 3."),
   h3("3. Vulnerability Assessment", style = "font-size:20px;"),
   p("In page 3, for each country, we use the following formula to assess vulnerability: "),
-  uiOutput("f"),
   p("where 0.25, 0.25, 0.15, 0.15, 0.2, and -0.5 are weights we used for these 6 factors 
     in our evaluation framework, which have detailed explainations in page 1 and 2."),
   p("The final result of vulnerability of each country is a number floating around 0.
@@ -48,7 +47,7 @@ page_one <- tabPanel(
     one of the key things is obviously to study Covid-19 itself. As a global pandemic, 
     the infection rate, fatality rate, etc, decides how severe it is and how vulnerable 
     people are when encountering it. Also, the reported cases of Convid-19 (either 
-    confirmed cases, recovered cases, and deaths) to some extent reflects the countries' 
+    confirmed cases, recovered cases, or deaths) to some extent reflects the countries' 
     level of public health construction, providing a quantitive indication of factors that 
     are hard to be quantified, such as the effectiveness of policy responses. All those explain
     why we include Covid-19 reported cases as a metric in the assessment framework."),
@@ -92,13 +91,13 @@ page_one <- tabPanel(
     selected = "US"
   ),
   plotlyOutput("inter_country_case"),
-  p("As we would see, a promising fact is that in almost all of the countries, the number of recovered cases is close to the number
+  p("As we can see, a promising fact is that in almost all of the countries, the number of recovered cases is close to the number
   of confirmed cases, even though the number of confirmed cases is huge. The increase rate of reported cases is revealed by the slope of the 
   shape. As for the increase rate, different countries diverge. Some countries have got a very small, even a zero, increase rate of
    confirmed and deaths early in 2020, but there are still countries experiencing an ever-higher rate of deaths currently."),
   p("To build the vulnerability assessment framework, we would assign different weights to the above variables 
-    and use them of gauge the vulnerability of counteries in face of Covid-19. As mentioned above, we assumed a same
-    weight for the number of confirmed cases and deaths. Combined with other metrics we would discuss later, we finally decided
+    and use them to gauge the vulnerability of counteries in face of Covid-19. As mentioned above, we assumed the same
+    weight for the number of confirmed cases and deaths. Combined with other factors we would discuss in page 2, we finally decided
     to assign the number of confirmed cases and deaths with a weight of ", span("12.5% ", style = "color: red"), ", and
     the number of recovered cases is assigned with a weight of ", span("50% ", style = "color: red"), ".")
 )
@@ -137,7 +136,8 @@ page_two <- tabPanel(
       )
     ),
     mainPanel(
-      plotlyOutput("mental_health_plot")
+      plotlyOutput("mental_health_plot"),
+      uiOutput("link4")
     )
   ),
   p("From the first visualization, we use the average percentage of people with mental
@@ -150,7 +150,7 @@ page_two <- tabPanel(
     Therefore, continuing with this trend, the average percentage would still be 12%-13%
     at the start of COVID-19 pandemic."),
   p("Due to this relatively stable situation
-    of the global mental health problem, ", span("15% ", style = "color: red"),
+    of the global mental health problem, ", span("7.5% ", style = "color: red"),
     "is a reasonable weight for mental health factor in our evaluation
     framework."),
   
@@ -186,7 +186,8 @@ page_two <- tabPanel(
       )
     ),
     mainPanel(
-      plotlyOutput("median_age_plot")
+      plotlyOutput("median_age_plot"),
+      uiOutput("link5")
     )
   ),
   p("From the first visualization, we take the average of median ages of all
@@ -201,7 +202,7 @@ page_two <- tabPanel(
     Therefore, continuing with this trend, the aging population problem is getting
     more and more serious globally both now and in the short run."),
   p("Due to this fierce increment of the number of older people, we decide to
-    use ", span("20% ", style = "color: red"),
+    use ", span("10% ", style = "color: red"),
     "as the weight for aging population factor in our evaluation
     framework."),
   
@@ -238,7 +239,7 @@ page_two <- tabPanel(
     ),
     mainPanel(
       plotlyOutput("NCD_plot"),
-      textOutput("NCD_analysis")
+      uiOutput("link6")
     )
   ),
   p("From the first visualization of global trend, we can see that the DALY rates
@@ -249,7 +250,7 @@ page_two <- tabPanel(
     gradually 'moving to the left'.  
     Therefore, continuing with this trend, there are fewer people that suffer
     NCDs both now and in the near future than in the past."),
-  p("Due to this gradual decrement, we decide to use ", span("15% ", style = "color: red"),
+  p("Due to this gradual decrement, we decide to use ", span("7.5% ", style = "color: red"),
     "as the weight for NCD factor in our evaluation framework.")
 )
 
@@ -259,7 +260,6 @@ page_three <- tabPanel(
   titlePanel(h3("The Vulnerability Assessment of Each Country")),
   plotlyOutput("inter_world_v_map"),
   p("Using the formula"),
-  uiOutput("f"),
   p("we make this heat map with
     a number result representing the vulnerability associated with each country.
     From this map, we can see that USA is the most vulnerable country based

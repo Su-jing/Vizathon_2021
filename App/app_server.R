@@ -310,10 +310,6 @@ Substance Use Disorders at", y),
     ggplotly(p, tooltip = c("text"))
   })
   
-  # NCD analysis
-  output$NCD_analysis <- renderText({
-    "blablabla (analysis aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)"
-  })
   
   
   
@@ -421,14 +417,21 @@ Substance Use Disorders at", y),
   output$link3 <- renderUI({
     tagList("Reference: ", url3)
   })
-  
-  # formula
-  output$f <- renderUI({
-    withMathJax(
-      helpText('$$(\\text{confirmation rate}*0.25 + \\text{death rate}*0.25 +
-               \\text{NCDs rate}*0.15 + \\text{mental disorders rate}*0.15 +
-               \\text{aging population rate}*0.2) * 0.5 + \\text{cure rate}*(-0.5)$$')
-    )
+  url4 <- a("published by	Global Burden of Disease Collaborative Network.",
+            href="http://ghdx.healthdata.org/gbd-results-tool")
+  output$link4 <- renderUI({
+    tagList("Data Source: ", url4)
   })
+  url5 <- a("published by UN Population Division.",
+            href="https://esa.un.org/unpd/wpp/Download/Standard/Population/")
+  output$link5 <- renderUI({
+    tagList("Data Source: ", url5)
+  })
+  url6 <- a("published by	Global Burden of Disease Collaborative Network.",
+            href="http://ghdx.healthdata.org/gbd-results-tool")
+  output$link6 <- renderUI({
+    tagList("Data Source: ", url6)
+  })
+  
 }
 
