@@ -16,7 +16,7 @@ confirm <- read.csv("data/time_series_covid19_confirmed_global.csv", stringsAsFa
 death <- read.csv("data/time_series_covid19_deaths_global.csv", stringsAsFactors = FALSE)
 vaccine <- read.csv("data/WHO-vaccination-data.csv", stringsAsFactors = FALSE)
 # preprocess of data
-output$inter_world_case_map <- renderPlotly({
+
   temp_r_total <- recover %>% 
     select(Country.Region, Total.recover) %>% 
     group_by(Country.Region) %>%
@@ -87,6 +87,7 @@ server <- function(input, output) {
   # })
   
   # an interactive map
+  output$inter_world_case_map <- renderPlotly({
     world <- ne_countries(returnclass = "sf")
     # join tables
     world <- left_join(world, num_cases_1, by = c("adm0_a3"="iso"), copy = T)
