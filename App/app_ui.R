@@ -37,9 +37,11 @@ home <- tabPanel(
 
 
 page_one <- tabPanel(
-  h2("Direct Influences"),
-  titlePanel(h3("The direct influences of Vovid-19, including deaths, recovered 
-               cases, confirmed cases, and vaccinations in each country from year XXXX to XXXX")),
+  h2("Covid-19 Overview"),
+  titlePanel(h3("How It Grows?")),
+  p("This section visualizes the number of Covid-19 cases, including confirmed, deaths, 
+    and recovered, from 22 January 2020 to 20 July 2021. It aims to provide an overview
+    of the level fo severity of Covid-19 in each country and shows how it progresses over time."),
   sidebarLayout(
     sidebarPanel(
       selectInput(
@@ -98,7 +100,7 @@ page_two <- tabPanel(
       )
     ),
     mainPanel(
-      plotOutput("mental_health_plot"),
+      plotlyOutput("mental_health_plot"),
       textOutput("mental_health_analysis")
     )
   ),
@@ -122,7 +124,7 @@ page_two <- tabPanel(
       )
     ),
     mainPanel(
-      plotOutput("median_age_plot"),
+      plotlyOutput("median_age_plot"),
       textOutput("median_age_analysis")
     )
   ),
@@ -146,7 +148,7 @@ page_two <- tabPanel(
       )
     ),
     mainPanel(
-      plotOutput("NCD_plot"),
+      plotlyOutput("NCD_plot"),
       textOutput("NCD_analysis")
     )
   )
