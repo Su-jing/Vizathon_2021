@@ -45,7 +45,7 @@ home <- tabPanel(
 
 page_one <- tabPanel(
   h2("Covid-19 Overview"),
-  titlePanel(h3("How It Grows?")),
+  titlePanel(h3("Covid-19 Overview")),
   p("To build a reliable assessment framework of the country's vulnerability to Covid-19, 
     one of the key things is obviously to study Covid-19 itself. As a global pandemic, 
     the infection rate, fatality rate, etc, decides how severe it is and how vulnerable 
@@ -59,6 +59,8 @@ page_one <- tabPanel(
   Systems Science and Engineering (JHU CSSE)"), ". The data includes Covid-19 confirmed cases, 
   recovered cases, and deaths, from 22 January 2020 to 20 July 2021. The visualizations below
   aim to provide an overview of Covid-19 and the underlying data are prepared for later assessment."),
+ 
+  
   h3("1) Global Cumulative Reported Cases", style = "font-size:20px;"),
   p("The global cumulative reported cases are visualized as an interactive geographic heatmap. It shows
     the number of a certain type of reported cases by country and the darker the color on the map, the more
@@ -71,10 +73,19 @@ page_one <- tabPanel(
     selected = "Confirmed"
   ),
   plotlyOutput("inter_world_case_map"),
-  p("blahhhhhhhhhhhhhhhh"),
+  p("The map reveals that the Americas, Europe, and South-East Asia are the major areas where Covid-19 causes
+    a great number of confirmed cases and deaths. Intuitively, the greater number of confirmed cases and deaths
+    indicates that countries in these areas are more vulnerable to Covid-19. For simplicity, it is assumed that
+    the number of confirmed cases and deaths cases contribute to the same weights on calculating the vulnerability
+    of counteries. On the other hand, the number of recovered cases is a positive indicator for the countries. The more 
+    recovered cases in a country, the country is less vulnerable to Covid-19. It indicates that people in such
+    countries may have better health conditions and the countries hold a higher level of public health infrastructure.
+    As a result, when including recovered cases in calculating the vulnerability of countries, we use the negative
+    value instead, and thus more number of recovered cases would lead to a lower level of vulnerability."),
   
   
-  
+  h3("1) Country Cumulative Reported Cases (Daily Trend)", style = "font-size:20px;"),
+  p("This visualization shows the daily trend of the number of reported cases in the selected country from 22 January 2020 to 20 July 2021."),
   # daily change
   selectInput(
     inputId = "country",
@@ -83,7 +94,15 @@ page_one <- tabPanel(
     selected = "US"
   ),
   plotlyOutput("inter_country_case"),
-  p("blahhhhhhhhhhhhhhhh")
+  p("As we would see, a promising fact is that in almost all of the countries, the number of recovered cases is close to the number
+  of confirmed cases, even though the number of confirmed cases is huge. The increase rate of reported cases is revealed by the slope of the 
+  shape. As for the increase rate, different countries diverge. Some countries have got a very small, even a zero, increase rate of
+   confirmed and deaths early in 2020, but there are still countries experiencing an ever-higher rate of deaths currently."),
+  p("To build the vulnerability assessment framework, we would assign different weights to the above variables 
+    and use them of gauge the vulnerability of counteries in face of Covid-19. As mentioned above, we assumed a same
+    weight for the number of confirmed cases and deaths. Combined with other metrics we would discuss later, we finally decided
+    to assign the number of confirmed cases and deaths with a weight of ", span("12.5% ", style = "color: red"), ", and
+    the number of recovered cases is assigned with a weight of ", span("50% ", style = "color: red"), ".")
 )
 
 
