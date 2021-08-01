@@ -37,11 +37,9 @@ home <- tabPanel(
     " to it, which is used for vulnerability assessment in page 3."),
   h3("3. Vulnerability Assessment", style = "font-size:20px;"),
   p("In page 3, for each country, we use the following formula to assess vulnerability: "),
-<<<<<<< HEAD
+
   img(src='f.png', width = "808.8", height = "22.8"),
-  # uiOutput("f"),
-=======
->>>>>>> e03d8518336d95391957ba5f82b080b5cd867aa9
+
   p("where 0.25, 0.25, 0.15, 0.15, 0.2, and -0.5 are weights we used for these 6 factors 
     in our evaluation framework, which have detailed explainations in page 1 and 2."),
   p("The final result of vulnerability of each country is a number floating around 0.
