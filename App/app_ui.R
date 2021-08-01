@@ -1,6 +1,15 @@
 library(shiny)
 library(ggplot2)
+library(dplyr)
 library(lintr)
+library(leaflet)
+library(tidyverse)
+library(plotly)
+library(rworldmap)
+library(RColorBrewer)
+library(classInt)
+library(rnaturalearth)
+library(countrycode)
 
 home <- tabPanel(
   h2("Home"),
