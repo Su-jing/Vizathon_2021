@@ -422,13 +422,5 @@ Substance Use Disorders at", y),
     tagList("Reference: ", url3)
   })
   
-  # formula
-  output$f <- renderUI({
-    withMathJax(
-      helpText('$$(\\text{confirmation rate}*0.25 + \\text{death rate}*0.25 +
-               \\text{NCDs rate}*0.15 + \\text{mental disorders rate}*0.15 +
-               \\text{aging population rate}*0.2) * 0.5 + \\text{cure rate}*(-0.5)$$')
-    )
-  })
 }
 

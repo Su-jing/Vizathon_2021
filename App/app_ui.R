@@ -13,10 +13,16 @@ library(countrycode)
 
 home <- tabPanel(
   h2("Home"),
-  titlePanel(h3("General Introduction of This App")),
-  p(span("Globally, ", style = "color: red"), "as of 6:17pm CEST, 29 July 2021, there have been 195,886,929 
+  titlePanel(h3("General Introduction")),
+  p("Globally, as of 6:17pm CEST, 29 July 2021, there have been 195,886,929 
     confirmed cases of COVID-19, including 4,189,148 deaths, reported by WHO. 
-    As of 28 July 2021, a total of 3,839,816,037 vaccine doses have been administered."),
+    As of 28 July 2021, a total of 3,839,816,037 vaccine doses have been administered (from WHO). 
+    The huge number of reported cases has made Covid-19 a global pandemic, and thus makes
+    it a central topic of public health."),
+  p("Thus, our aim is to explore how Covid-19 would impact, or be impacted by, the social public health construction
+    of each country and build visualizations based on public health data to gain a deeper understanding of Covid-19.
+    And finally, we will make a vulnerability assessment for each country on top of that. As such, this app is naturally
+    separated into three main parts:"),
   h3("1. Covid-19 Overview", style = "font-size:20px;"),
   p("In page 1, we make visualizations for trend of the COVID-19 pandemic from
     both a global perspective and a specific country perspective.
@@ -31,7 +37,8 @@ home <- tabPanel(
     " to it, which is used for vulnerability assessment in page 3."),
   h3("3. Vulnerability Assessment", style = "font-size:20px;"),
   p("In page 3, for each country, we use the following formula to assess vulnerability: "),
-  uiOutput("f"),
+  img(src='f.png', width = "808.8", height = "22.8"),
+  # uiOutput("f"),
   p("where 0.25, 0.25, 0.15, 0.15, 0.2, and -0.5 are weights we used for these 6 factors 
     in our evaluation framework, which have detailed explainations in page 1 and 2."),
   p("The final result of vulnerability of each country is a number floating around 0.
@@ -290,7 +297,7 @@ page_three <- tabPanel(
 ui <- shinyUI(fluidPage(
   p("By Ryan & Wuwei (Public Health Track)", style = "font-size: 10px; text-align: left"),
   h1(span("Covid-19", style = "font-weight: 300; color: red",), 
-     "Trend Visualization and Vulnerability Assessment"),
+     "Visualizations and Vulnerability Assessment"),
   includeCSS("style.css"),
   tabsetPanel(
     home,
