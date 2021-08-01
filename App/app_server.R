@@ -203,9 +203,10 @@ server <- function(input, output) {
     # line plot for mental health to show trend
     if (input$type1 == "Global trend of mental health (1992-2017)") {
       p <- ggplot(data = mental_health_global, 
-             aes(x = seq(1992,2017, by=1), y = avg, text = paste0("Year: ",  seq(1992,2017, by=1)))) +
+             aes(x = seq(1992,2017, by=1), y = avg, 
+                 text = paste0("Year: ",  seq(1992,2017, by=1), "\nPercentage: ", avg))) +
         geom_point(color = "black", size = 2.5) +
-        geom_line(size = 1, color = "blue") +
+        geom_line(size = 1, color = "blue", group = 1) +
         labs(title = "Average Percentage of People with Mental and Substance Use Disorders
 (Global Trend 1992-2017)", 
              x = "Year", y = "Percentage (%)") +
@@ -224,7 +225,7 @@ Substance Use Disorders at", y),
         xlim(8, 20) + 
         ylim(0, 65)
     }
-    ggplotly(p)
+    ggplotly(p, tooltip = c("text"))
   })
   
   # mental health analysis
@@ -240,9 +241,10 @@ Substance Use Disorders at", y),
     # line plot for median age to show trend
     if (input$type2 == "Global trend of median age (1950-2050)") {
       p <- ggplot(data = median_age_global, 
-             aes(x = seq(1950,2050, by=5), y = avg)) +
+             aes(x = seq(1950,2050, by=5), y = avg, 
+                 text = paste0("Year: ",  seq(1950,2050, by=5), "\nAge: ", avg))) +
         geom_point(color = "black", size = 2.5) +
-        geom_line(size = 1, color = "blue") +
+        geom_line(size = 1, color = "blue", group = 1) +
         labs(title = "Average Median Age of People (Global Trend 1950-2050)", 
              x = "Year", y = "Age") +
         scale_x_continuous(breaks = seq(1950,2050, by=10)) +
@@ -259,7 +261,7 @@ Substance Use Disorders at", y),
         xlim(10, 55) +
         ylim(0, 50)
     }
-    ggplotly(p)
+    ggplotly(p, tooltip = c("text"))
   })
   
   # mental health analysis
@@ -275,9 +277,10 @@ Substance Use Disorders at", y),
     # line plot for NCD to show trend
     if (input$type3 == "Global trend of Non-communicable Diseases (1990-2017)") {
       p <- ggplot(data = NCD_global, 
-             aes(x = seq(1990,2017, by=1), y = avg)) +
+             aes(x = seq(1990,2017, by=1), y = avg,
+                 text = paste0("Year: ",  seq(1990,2017, by=1), "\nDALY Rates: ", avg))) +
         geom_point(color = "black", size = 2.5) +
-        geom_line(size = 1, color = "blue") +
+        geom_line(size = 1, color = "blue", group = 1) +
         labs(title = "Average DALY Rates of NCDs (Global Trend 1990-2017)", 
              x = "Year", y = "DALY Rates (years)") +
         scale_x_continuous(breaks = seq(1990,2017, by=2)) +
@@ -294,7 +297,7 @@ Substance Use Disorders at", y),
         xlim(5000, 50000) +
         ylim(0, 30)
     }
-    ggplotly(p)
+    ggplotly(p, tooltip = c("text"))
   })
   
   # NCD analysis
