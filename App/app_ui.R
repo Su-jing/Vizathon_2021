@@ -24,27 +24,30 @@ home <- tabPanel(
     And finally, we will make a vulnerability assessment for each country on top of that. As such, this app is naturally
     separated into three main parts:"),
   h3("1. Covid-19 Overview", style = "font-size:20px;"),
-  p("In page 1, we make visualizations for trend of the COVID-19 pandemic from
+  p("In page 1, we make visualizations of the cumulative COVID-19 reported cases from
     both a global perspective and a specific country perspective.
-    We also analyze the number of ", span("confirmed cases, death cases, and cured 
-    cases",style="color: red"),", respectively, with ", span("a weight assigned to each one", style = "color: red"),
-    " , which is used for vulnerability assessment in page 3."),
+    We also analyze the number of ", span("confirmed cases, death cases, and recovered 
+    cases",style="color: red"),", respectively. These three values would be some
+    sort of direct impact of Covid-19, which would be used in our vulnerability assessment
+    framework. Specificly, we would construct ", span("a weight assigned to each one", style = "color: red"),
+    " , which decides how they would be used to calculate country's vulnerability in page 3."),
   h3("2. Second-order Impacts", style = "font-size:20px;"),
   p("In page 2, from public health persepctive, we visualize and analyze 
     three more vulnerable groups of people during the COVID-19 pandemic: ",
-    span("mental health, aging population, and people with non-communicable diseases",style="color: red"),
+    span("people with mental disorders, aging population, and people with non-communicable diseases",style="color: red"),
     ". For each of these three factors, we also ", span("assign a weight", style = "color: red"), 
     " to it, which is used for vulnerability assessment in page 3."),
   h3("3. Vulnerability Assessment", style = "font-size:20px;"),
-  p("In page 3, for each country, we use the following formula to assess vulnerability: "),
+  p("In page 3,  we use the following formula to assess vulnerability of each country: "),
 
   img(src='f.png', width = "808.8", height = "22.8"),
 
-  p("where 0.25, 0.25, 0.15, 0.15, 0.2, and -0.5 are weights we used for these 6 factors 
+  p("where 0.25, 0.25, 0.15, 0.15, 0.2, and 0.5 are weights we decided for these 6 factors 
     in our evaluation framework, which have detailed explainations in page 1 and 2."),
-  p("The final result of vulnerability of each country is a number floating around 0.
+  p("The final result of vulnerability of each country is normalized to numbers floating around 0.
+    Smaller numbers means lower level of vulnerability.
     Thus, if the result is negative, we can say that this country is relatively
-    less vulnerable. If the result is positive, we can say that this country
+    less vulnerable; if the result is positive, we can say that this country
     is relatively more vulnerable.")
 )
 
