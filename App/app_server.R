@@ -329,9 +329,15 @@ Substance Use Disorders at", y),
   names(total) <- c("ISO3", "Country", "Recovered", "Confirmed", "Death", 
                     "NCD", "Mental.Health", "Age")
   #calculate vulnerability
+  # total <- total %>% 
+  #   mutate(Vulnerability = ((Recovered*0.2 + Confirmed*0.2 + Death*0.2
+  #                           + NCD*0.1 + Mental.Health*0.1 + Age*0.2)*100))
+  #vulnerability v-2 -> include negative impact of recovered cases on vulnerability
   total <- total %>% 
-    mutate(Vulnerability = ((Recovered*0.2 + Confirmed*0.2 + Death*0.2
-                            + NCD*0.1 + Mental.Health*0.1 + Age*0.2)*100))
+    mutate(Vulnerability = ((
+      (Confirmed*0.25 + Death*0.25 + NCD*0.15 + Mental.Health*0.15 + Age*0.2)*0.5 
+                             + (-Recovered)*0.5)
+                            *100))
   
   #vulnerability map
   output$inter_world_v_map <- renderPlotly({
@@ -366,7 +372,7 @@ Substance Use Disorders at", y),
       #                     labels = paste0(pie2$Factor, " ", format(round(pie2$Value*100, 2), nsmall = 2))) +
       #   theme(legend.position = "right")
       
-      
+      #donut
       # Compute percentages
       pie2$fraction = pie2$Value / sum(pie2$Value)
       # Compute the cumulative percentages (top of each rectangle)
@@ -380,9 +386,8 @@ Substance Use Disorders at", y),
         xlim(c(1, 4)) +
         theme_void() +
         scale_fill_brewer(palette = "Greens", 
-                          labels = paste0(pie2$Factor, " ", format(round(pie2$Value*100, 2), nsmall = 2))) +
+                          labels = paste0(pie2$Factor, " ", format(round(pie2$Value*100, 2), nsmall = 2), "%")) +
         theme(legend.position = "right")
-     
   })
   
   #rearrange total in asce order by vulnerability and get top 10

@@ -17,43 +17,33 @@ home <- tabPanel(
   p(span("Globally, ", style = "color: red"), "as of 6:17pm CEST, 29 July 2021, there have been 195,886,929 
     confirmed cases of COVID-19, including 4,189,148 deaths, reported to WHO. 
     As of 28 July 2021, a total of 3,839,816,037 vaccine doses have been administered.")
-  # sidebarLayout(
-  #   sidebarPanel(
-  #     # a `radioButtons` widget, the default choice is "Professional"
-  #     radioButtons(
-  #       inputId = "status",
-  #       label = "Hi, are you a student or professional?",
-  #       choices = list("Student" = "college education", "Professional"
-  #                      = "profession"),
-  #       selected = "profession"
-  #     ),
-  #     textOutput("suggestion"),
-  #     
-  #     # a `selectInput` widget, the default choice is "Profession"
-  #     selectInput(
-  #       inputId = "interest",
-  #       label = "Choose a rate of interest here (not need to be the one
-  #               in suggesstion above):",
-  #       choices = c("College_Education_Rates", "Profession_Rates"),
-  #       selected = "Profession_Rates"
-  #     )
-  #   ),
-  #   mainPanel(
-  #     plotOutput("comparison_plot")
-  #   )
-  # )
 )
 
 
 page_one <- tabPanel(
   h2("Covid-19 Overview"),
   titlePanel(h3("How It Grows?")),
-  p("This section visualizes the number of Covid-19 cases, including confirmed, deaths, 
-    and recovered, from 22 January 2020 to 20 July 2021. It aims to provide an overview
-    of the level fo severity of Covid-19 in each country and shows how it progresses over time."),
+  p("To build a reliable assessment framework of the country's vulnerability to Covid-19, 
+    one of the key things is obviously to study Covid-19 itself. As a global pandemic, 
+    the infection rate, fatality rate, etc, decides how severe it is and how vulnerable 
+    people are when encountering it. Also, the reported cases of Convid-19 (either 
+    confirmed cases, recovered cases, and deaths) to some extent reflects the countries' 
+    level of public health construction, providing a quantitive indication of factors that 
+    are hard to be quantified, such as the effectiveness of policy responses. All those explain
+    why we include Covid-19 reported cases as a metric in the assessment framework."),
+  p("So, this section visualizes the number of Covid-19 reported cases with data collected by ", 
+  a(href = "https://github.com/CSSEGISandData/COVID-19", "Johns Hopkins University Center for 
+  Systems Science and Engineering (JHU CSSE)"), ". The data includes Covid-19 confirmed cases, 
+  recovered cases, and deaths, from 22 January 2020 to 20 July 2021. The visualizations below
+  aim to provide an overview of Covid-19 and the underlying data are prepared for later assessment."),
+  h3("1) Global Cumulative Reported Cases", style = "font-size:20px;"),
+  p("The global cumulative reported cases are visualized as an interactive geographic heatmap. It shows
+    the number of a certain type of reported cases by country and the darker the color on the map, the more
+    cases in the corresponding country. (Since the datasets do not cover every country of the world, so
+    missing values are showed in white.)"),
   selectInput(
     inputId = "caseType",
-    label = "Choose type of data you are interested in:",
+    label = "Choose type of case you are interested in:",
     choices = c("Confirmed", "Death", "Recovered"),
     selected = "Confirmed"
   ),
@@ -65,7 +55,7 @@ page_one <- tabPanel(
   # daily change
   selectInput(
     inputId = "country",
-    label = "Choose country you are interested in:",
+    label = "Choose the country you are interested in:",
     choices = temp_c_total$Country.Region,
     selected = "US"
   ),
@@ -213,7 +203,7 @@ page_three <- tabPanel(
     sidebarPanel(
       selectInput(
         inputId = "countryp",
-        label = "Choose country you are interested in:",
+        label = "Choose the country you are interested in:",
         choices = total$Country,
         selected = "US"
       ),
