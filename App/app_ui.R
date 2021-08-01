@@ -42,27 +42,33 @@ page_one <- tabPanel(
                cases, confirmed cases, and vaccinations in each country from year XXXX to XXXX")),
   sidebarLayout(
     sidebarPanel(
-      # a `radioButtons` widget, the default choice is "Sure!"
-      # radioButtons(
-      #   inputId = "emotion",
-      #   label = "Hi, are you excited to be going to use this app?",
-      #   choices = list("Sure!" = "Thank you!",
-      #                  "Emm...not really." =
-      #                    "Hope you could change your idea later:)"),
-      #   selected = "Thank you!"
-      # ),
-      # textOutput("greeting"),
-      # a `selectInput` widget, the default choice is "Other Races"
       selectInput(
         inputId = "caseType",
         label = "Choose type of data you are interested in:",
-        choices = c("Confirmed", "Death", "Recovered", "Vaccined"),
+        choices = c("Confirmed", "Death", "Recovered"),
         selected = "Confirmed"
       )
     ),
     mainPanel(
-      plotOutput("world_case_map"),
-      plotlyOutput("inter_world_case_map")
+      plotlyOutput("inter_world_case_map"),
+      p("blahhhhhhhhhhhhhhhh")
+    )
+  ),
+  
+  # daily change
+  sidebarLayout(
+    sidebarPanel(
+      
+      selectInput(
+        inputId = "country",
+        label = "Choose country you are interested in:",
+        choices = temp_c_total$Country.Region,
+        selected = "US"
+      )
+    ),
+    mainPanel(
+      plotlyOutput("inter_country_case"),
+      p("blahhhhhhhhhhhhhhhh")
     )
   )
 )
@@ -72,31 +78,6 @@ page_two <- tabPanel(
   h2("Second-order Impacts"),
   titlePanel(h3("The second-order impacts of Covid-19, inspect from four aspects: gender, age, 
                history of diseases, and mental health")),
-  sidebarLayout(
-    sidebarPanel(
-      # a `radioButtons` widget, the default choice is "Professional"
-      radioButtons(
-        inputId = "status",
-        label = "Hi, are you a student or professional?",
-        choices = list("Student" = "college education", "Professional"
-                       = "profession"),
-        selected = "profession"
-      ),
-      textOutput("suggestion"),
-      
-      # a `selectInput` widget, the default choice is "Profession"
-      selectInput(
-        inputId = "interest",
-        label = "Choose a rate of interest here (not need to be the one
-                  in suggesstion above):",
-        choices = c("College_Education_Rates", "Profession_Rates"),
-        selected = "Profession_Rates"
-      )
-    ),
-    mainPanel(
-      plotOutput("comparison_plot")
-    )
-  ),
   
   # Mental Health
   h3("1) mental health blablablablablabla", style = "font-size:20px;"),

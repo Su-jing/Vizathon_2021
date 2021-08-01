@@ -15,44 +15,42 @@ recover <- read.csv("data/time_series_covid19_recovered_global.csv", stringsAsFa
 confirm <- read.csv("data/time_series_covid19_confirmed_global.csv", stringsAsFactors = FALSE)
 death <- read.csv("data/time_series_covid19_deaths_global.csv", stringsAsFactors = FALSE)
 vaccine <- read.csv("data/WHO-vaccination-data.csv", stringsAsFactors = FALSE)
-
-
-# pre process of dfs
-temp_r_total <- recover %>% 
-  select(Country.Region, Total.recover) %>% 
-  group_by(Country.Region) %>%
-  summarise("Recover" = sum(Total.recover))
-
-temp_c_total <- confirm %>% 
-  select(Country.Region, Total.confirm) %>% 
-  group_by(Country.Region) %>%
-  summarise("Confirmed" = sum(Total.confirm))
-
-temp_d_total <- death %>% 
-  select(Country.Region, Total.death) %>% 
-  group_by(Country.Region) %>%
-  summarise("Death" = sum(Total.death))
-
-temp_v_total <- vaccine %>% 
-  select(COUNTRY, TOTAL_VACCINATIONS)
-
-# merge cases data
-num_cases_1 <- merge(temp_r_total, temp_c_total,
-                     by.x = 'Country.Region',
-                     by.y = 'Country.Region')
+# preprocess of data
+output$inter_world_case_map <- renderPlotly({
+  temp_r_total <- recover %>% 
+    select(Country.Region, Total.recover) %>% 
+    group_by(Country.Region) %>%
+    summarise("Recover" = sum(Total.recover))
   
-num_cases_1 <- merge(num_cases_1, temp_d_total,
+  temp_c_total <- confirm %>% 
+    select(Country.Region, Total.confirm) %>% 
+    group_by(Country.Region) %>%
+    summarise("Confirmed" = sum(Total.confirm))
+  
+  temp_d_total <- death %>% 
+    select(Country.Region, Total.death) %>% 
+    group_by(Country.Region) %>%
+    summarise("Death" = sum(Total.death))
+  
+  temp_v_total <- vaccine %>% 
+    select(COUNTRY, TOTAL_VACCINATIONS)
+  
+  # merge cases data
+  num_cases_1 <- merge(temp_r_total, temp_c_total,
+                       by.x = 'Country.Region',
+                       by.y = 'Country.Region')
+  
+  num_cases_1 <- merge(num_cases_1, temp_d_total,
                        by.x = 'Country.Region',
                        by.y = 'Country.Region') 
-
-num_cases_1 <- merge(num_cases_1, temp_v_total,
-                     by.x = 'Country.Region',
-                     by.y = 'COUNTRY') %>%
-  na.omit() 
-# rename columns
-names(num_cases_1) <- c("Country", "Recovered", "Confirmed", "Death", "Vaccined")
-
-
+  
+  # rename columns
+  names(num_cases_1) <- c("Country", "Recovered", "Confirmed", "Death")
+  #add column of iso code
+  num_cases_1$iso <- countrycode(num_cases_1$Country, "country.name", "iso3c")
+  #manually add unmatched code
+  num_cases_1[num_cases_1$Country==	"Kosovo","iso"] = "KOS"
+  
 mental_health <- read.csv("data/mental_health_by_country.csv")
 median_age <- read.csv("data/median_age_by_country.csv")
 NCD <- read.csv("data/NCD_by_country.csv")
@@ -61,141 +59,143 @@ NCD <- read.csv("data/NCD_by_country.csv")
 server <- function(input, output) {
   # page one
   #Geographic heat map
-  #get world data
-  world <- map_data('world')
-  
-  #try to draw world map
-  ggplot(world, aes(x = long, y = lat, group = group)) +
-    geom_polygon(color = 'black') 
-  
-  #a static map
-  output$world_case_map <- renderPlot({
-    # change country name to draw world map
-    num_cases_1[num_cases_1$Country==	"North Macedonia","Country"] = "Macedonia"
-    num_cases_1[num_cases_1$Country==	"Czechia","Country"] = "Czech Republic"
-    num_cases_1[num_cases_1$Country==	"Eswatini","Country"] = "Swaziland"
-    case_map <- joinCountryData2Map(num_cases_1,
-                                    joinCode = "NAME",
-                                    nameJoinColumn = "Country",
-                                    verbose = TRUE)
-    #getting class intervals using a ✬jenks✬ classification in classInt package
-    classInt <- classIntervals( case_map[[input$caseType]], n=9, style="jenks")
-    catMethod = classInt[["brks"]]
-    # cannot change to snake_case because it is a library function
-    colourPalette <- brewer.pal(9, "RdPu")
-    m <- mapCountryData(case_map,
-                        nameColumnToPlot = input$caseType,
-                        colourPalette = colourPalette,
-                        catMethod = catMethod,
-                        numCats = 100,
-                        addLegend = F
-    )
-    do.call( addMapLegend, c( m, legendLabels="all", 
-                              legendWidth=0.8, legendIntervals="page", legendMar = 4 ))
-  })
+  # 
+  # #a static map
+  # output$world_case_map <- renderPlot({
+  #   # change country name to draw world map
+  #   num_cases_1[num_cases_1$Country==	"North Macedonia","Country"] = "Macedonia"
+  #   num_cases_1[num_cases_1$Country==	"Czechia","Country"] = "Czech Republic"
+  #   num_cases_1[num_cases_1$Country==	"Eswatini","Country"] = "Swaziland"
+  #   case_map <- joinCountryData2Map(num_cases_1,
+  #                                   joinCode = "NAME",
+  #                                   nameJoinColumn = "Country",
+  #                                   verbose = TRUE)
+  #   #getting class intervals using a ✬jenks✬ classification in classInt package
+  #   classInt <- classIntervals( case_map[[input$caseType]], n=9, style="jenks")
+  #   catMethod = classInt[["brks"]]
+  #   # cannot change to snake_case because it is a library function
+  #   colourPalette <- brewer.pal(9, "RdPu")
+  #   m <- mapCountryData(case_map,
+  #                       nameColumnToPlot = input$caseType,
+  #                       colourPalette = colourPalette,
+  #                       catMethod = catMethod,
+  #                       numCats = 100,
+  #                       addLegend = F
+  #   )
+  #   do.call( addMapLegend, c( m, legendLabels="all", 
+  #                             legendWidth=0.8, legendIntervals="page", legendMar = 4 ))
+  # })
   
   # an interactive map
-  output$inter_world_case_map <- renderPlotly({
-    #add column of iso code
-    num_cases_1$iso <- countrycode(num_cases_1$Country, "country.name", "iso3c")
-    #manually add unmatched code
-    num_cases_1[num_cases_1$Country==	"Kosovo","iso"] = "KOS"
-    #num_cases_1 <- num_cases_1 %>% na.omit()
-    
     world <- ne_countries(returnclass = "sf")
     # join tables
     world <- left_join(world, num_cases_1, by = c("adm0_a3"="iso"), copy = T)
     options(warn=-1)
     
-    # input$caseType
     if(req(input$caseType) == "Confirmed") {
       p <- ggplot(world, aes(text = paste("Country:", name), color = Confirmed)) +
-        geom_sf(aes(fill =Confirmed))
+        geom_sf(aes(fill =Confirmed)) +
+        scale_fill_distiller(type = "seq", palette = "RdPu", na.value = "white", direction = 1) +
+        scale_color_distiller(type = "seq", palette = "RdPu", na.value = "#fee3db", direction = 1) 
     } else if(req(input$caseType) == "Death") {
       p <- ggplot(world, aes(text = paste("Country:", name), color = Death)) +
-        geom_sf(aes(fill =Death))
+        geom_sf(aes(fill =Death))+
+        scale_fill_distiller(type = "seq", palette = "GnBu", na.value = "white", direction = 1) +
+        scale_color_distiller(type = "seq", palette = "GnBu", na.value = "#e6f5de", direction = 1) 
     } else if(req(input$caseType) == "Recovered") {
       p <- ggplot(world, aes(text = paste("Country:", name), color = Recovered)) +
-        geom_sf(aes(fill = Recovered))
+        geom_sf(aes(fill = Recovered))+
+        scale_fill_distiller(type = "seq", palette = "Oranges", na.value = "white", direction = 1) +
+        scale_color_distiller(type = "seq", palette = "Oranges", na.value = "#fee3ca", direction = 1) 
     } else if(req(input$caseType) == "Vaccined") {
-      p <- ggplot(world, aes(text = paste("Country:", name), color = Vaccined)) +
-        geom_sf(aes(fill =Vaccined))
+      
+      num_cases_1 <- merge(num_cases_1, temp_v_total,
+                           by.x = 'Country.Region',
+                           by.y = 'COUNTRY') %>%
+        na.omit() 
+      world <- left_join(world, num_cases_1, by = c("adm0_a3"="iso"), copy = T)
+      options(warn=-1)
+      p <- ggplot(world, aes(text = paste("Country:", name))) +
+        geom_sf(aes(color=Vaccined, fill = Vaccined))+
+        scale_fill_distiller(type = "seq", palette = "Greens", na.value = "white", direction = 1) +
+        scale_color_distiller(type = "seq", palette = "Greens", na.value = "#e6f5e1", direction = 1) 
     }
-    p <- p +
-      scale_fill_distiller(palette = "RdPu", na.value = "white") +
-      scale_color_distiller(palette = "RdPu", na.value = "lightgray") +
-      theme_light()
-    ggplotly(p)
+    p <- p + theme_light() + labs(title= paste0("Number of ", input$caseType, " Cases by Country"), 
+                                  subtitle = paste0("(The Darker The Color, The More Cases)"))
+    ggplotly(p, tooltip = c("text","colour"))
   })
   
-  # render the greeting text
-  # output$greeting <- renderText({
-  #   input$emotion
-  # })
+  # interactive daily trend
+  output$inter_country_case <- renderPlotly({
+    dates <- seq(as.Date("2020-01-22"), as.Date("2021-07-30"), by="days")
+    
+    #process data
+    df_d <- death %>% 
+      filter(Country.Region == "US") %>%
+      select(Country.Region, 6:561) %>%
+      group_by(Country.Region) %>%
+      summarize_if(is.numeric, sum, na.rm=TRUE)
+    df_d <- as.data.frame(t(df_d))
+    colnames(df_d) = "Death"
+    df_d <- df_d %>% 
+      slice(-1) %>%
+      mutate_at(vars(Death), as.numeric) %>%
+      arrange(Death) 
+    df_d$Date = dates
+    rownames(df_d) <- NULL
+    
+    df_r <-recover %>% 
+      filter(Country.Region == "US") %>%
+      select(Country.Region, 6:561) %>%
+      group_by(Country.Region) %>%
+      summarize_if(is.numeric, sum, na.rm=TRUE)
+    df_r <- as.data.frame(t(df_r))
+    colnames(df_r) = "Recovered"
+    df_r <- df_r %>% 
+      slice(-1) %>%
+      mutate_at(vars(Recovered), as.numeric) %>%
+      arrange(Recovered) 
+    df_r$Date = dates
+    rownames(df_r) <- NULL
+    
+    df_c <-confirm %>% 
+      filter(Country.Region == "US") %>%
+      select(Country.Region, 6:561) %>%
+      group_by(Country.Region) %>%
+      summarize_if(is.numeric, sum, na.rm=TRUE)
+    df_c<- as.data.frame(t(df_c))
+    colnames(df_c) = "Confirmed"
+    df_c <- df_c %>% 
+      slice(-1) %>%
+      mutate_at(vars(Confirmed), as.numeric) %>%
+      arrange(Confirmed) 
+    df_c$Date = dates
+    rownames(df_c) <- NULL
+    
+    
+    df_all <- merge(df_r, df_d,
+                by.x = 'Date',
+                by.y = 'Date')
+    df_all <- merge(df_all, df_c,
+                    by.x = 'Date',
+                    by.y = 'Date')
+    
+    #draw a plot
+    p <- ggplot(df_all, aes(x=Date, group = 1)) +
+      geom_area(size = 0.5, color = "pink", fill = "#fee3db", aes(y=Confirmed)) +
+      geom_area(size = 0.5, color = "orange", fill = "#fee3ca", aes(y=Recovered)) +
+      geom_area(size = 0.5, color = "lightgreen",  fill = "#e6f5de", aes(y=Death)) +
+      labs(title = paste0("Number of 
+            Cases (Daily Trend)"), 
+           x = "Date", y = "Number") + theme_light()
+    ggplotly(p)
 
-  # wrangle the data first and then render the plot based on the user's input
-  # select the `state` and population(in respect to race) columns,
-  # group the data by state, change the column names
-  # race_pop_data <- midwest %>%
-  #   na.omit() %>%
-  #   select(state, popwhite, popblack, popamerindian, popasian, popother) %>%
-  #   group_by(state) %>%
-  #   summarise("Whites" = sum(popwhite), "Blacks" = sum(popblack),
-  #             "American_Indians" = sum(popamerindian),
-  #             "Asians" = sum(popasian), "Other_Races" = sum(popother))
-  # 
-  # output$race_pop_plot <- renderPlot({
-  # # x-axis is the state, y-axis is the population of races of user's interest
-  # ggplot(data = race_pop_data) +
-  #   geom_col(
-  #     mapping = aes_string(x = "state", y = input$race),
-  #     fill = "red",
-  #     alpha = 0.7
-  #   ) +
-  #   labs(
-  #     title = paste0("Population of \"", input$race, "\" in each state"),
-  #     x = "State",
-  #     y = input$race
-  #   )
-  # })
-
+  })
+  
   
   
   
   # page two
-  # render the suggestion text
-  output$suggestion <- renderText({
-    paste0("You might be interested in the comparison between the ",
-           input$status, " rates and the adult poverty rates.", "You
-           can select the respective choice below.")
-  })
-
-  # wrangle the data first and then render the plot based on the user's input
-  # select the `percadultpoverty`, `percollege` and `percprof` columns
-  # change the column names
-  comparison_data <- midwest %>%
-    na.omit() %>%
-    select(percadultpoverty, percollege, percprof)
-  colnames(comparison_data) <- c("Adult_Poverty_Percent",
-                              "College_Education_Rates",
-                              "Profession_Rates")
-  output$comparison_plot <- renderPlot({
-    # x-axis is the percent of college education or profession rate
-    # y-axis is the adult poverty rate
-    ggplot(data = comparison_data) +
-      geom_point(
-        mapping = aes_string(x = input$interest, y = "Adult_Poverty_Percent",
-                             color = "Adult_Poverty_Percent"), size = 5,
-      ) +
-      labs(
-        title = paste0("Compare the \"", input$interest,
-                       "\" to the \"Percent_of_Adult_Poverty\""),
-        x = input$interest,
-        y = "Percent_of_Adult_Poverty",
-        color = "Percent_of_Adult_Poverty"
-      )
-  })
-  
   # global average data for public health
   mental_health_global <- mental_health[, -1]
   mental_health_global <- data.frame("avg" = colMeans(mental_health_global))
@@ -299,3 +299,4 @@ Substance Use Disorders at", y),
     "blablabla (analysis aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)"
   })
 }
+
