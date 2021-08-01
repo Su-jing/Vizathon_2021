@@ -51,37 +51,26 @@ page_one <- tabPanel(
   p("This section visualizes the number of Covid-19 cases, including confirmed, deaths, 
     and recovered, from 22 January 2020 to 20 July 2021. It aims to provide an overview
     of the level fo severity of Covid-19 in each country and shows how it progresses over time."),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput(
-        inputId = "caseType",
-        label = "Choose type of data you are interested in:",
-        choices = c("Confirmed", "Death", "Recovered"),
-        selected = "Confirmed"
-      )
-    ),
-    mainPanel(
-      plotlyOutput("inter_world_case_map"),
-      p("blahhhhhhhhhhhhhhhh")
-    )
+  selectInput(
+    inputId = "caseType",
+    label = "Choose type of data you are interested in:",
+    choices = c("Confirmed", "Death", "Recovered"),
+    selected = "Confirmed"
   ),
+  plotlyOutput("inter_world_case_map"),
+  p("blahhhhhhhhhhhhhhhh"),
+  
+  
   
   # daily change
-  sidebarLayout(
-    sidebarPanel(
-      
-      selectInput(
-        inputId = "country",
-        label = "Choose country you are interested in:",
-        choices = temp_c_total$Country.Region,
-        selected = "US"
-      )
-    ),
-    mainPanel(
-      plotlyOutput("inter_country_case"),
-      p("blahhhhhhhhhhhhhhhh")
-    )
-  )
+  selectInput(
+    inputId = "country",
+    label = "Choose country you are interested in:",
+    choices = temp_c_total$Country.Region,
+    selected = "US"
+  ),
+  plotlyOutput("inter_country_case"),
+  p("blahhhhhhhhhhhhhhhh")
 )
 
 
@@ -218,63 +207,26 @@ page_two <- tabPanel(
 page_three <- tabPanel(
   h2("Vulnerability"),
   titlePanel(h3("The vulnerability assessment of each country, using data/statistics from previous sections")),
-  # sidebarLayout(
-  #   sidebarPanel(
-  #     # a `radioButtons` widget, the default choice is "Professional"
-  #     radioButtons(
-  #       inputId = "status",
-  #       label = "Hi, are you a student or professional?",
-  #       choices = list("Student" = "college education", "Professional"
-  #                      = "profession"),
-  #       selected = "profession"
-  #     ),
-  #     textOutput("suggestion"),
-  #     
-  #     # a `selectInput` widget, the default choice is "Profession"
-  #     selectInput(
-  #       inputId = "interest",
-  #       label = "Choose a rate of interest here (not need to be the one
-  #               in suggesstion above):",
-  #       choices = c("College_Education_Rates", "Profession_Rates"),
-  #       selected = "Profession_Rates"
-  #     )
-  #   ),
-  #   mainPanel(
-  #     plotOutput("comparison_plot")
-  #   )
-  # )
+  plotlyOutput("inter_world_v_map"),
+  p("xxxxx"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        inputId = "countryp",
+        label = "Choose country you are interested in:",
+        choices = total$Country,
+        selected = "US"
+      ),
+      p("The pie chart shows.....")
+    ),
+    mainPanel(
+      plotOutput("inter_country_pie"),
+      p("blahhhhhhhhhhhhhhhh")
+    )
+  ),
+  tableOutput('table')
 )
 
-
-page_four <- tabPanel(
-  h2("Possible Bonus Page?"),
-  titlePanel(h3("Word analysis from Tweeter")),
-  # sidebarLayout(
-  #   sidebarPanel(
-  #     # a `radioButtons` widget, the default choice is "Professional"
-  #     radioButtons(
-  #       inputId = "status",
-  #       label = "Hi, are you a student or professional?",
-  #       choices = list("Student" = "college education", "Professional"
-  #                      = "profession"),
-  #       selected = "profession"
-  #     ),
-  #     textOutput("suggestion"),
-  #     
-  #     # a `selectInput` widget, the default choice is "Profession"
-  #     selectInput(
-  #       inputId = "interest",
-  #       label = "Choose a rate of interest here (not need to be the one
-  #               in suggesstion above):",
-  #       choices = c("College_Education_Rates", "Profession_Rates"),
-  #       selected = "Profession_Rates"
-  #     )
-  #   ),
-  #   mainPanel(
-  #     plotOutput("comparison_plot")
-  #   )
-  # )
-)
 
 
 ui <- shinyUI(fluidPage(
@@ -286,7 +238,6 @@ ui <- shinyUI(fluidPage(
     home,
     page_one,
     page_two,
-    page_three,
-    page_four
+    page_three
   )
 ))

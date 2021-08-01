@@ -62,6 +62,19 @@ median_age2 <- read.csv("data/median_age_by_country2.csv")
 
 
 
+# merge all tables together to 'total' for calculating vulnerability
+temp_NCD <- NCD2 %>% select(iso, X2017)
+total <- merge(num_cases_1, temp_NCD, by.x = "iso", by.y = "iso")
+total <- total[c(1:184),]
+total <- rename(total, NCD_value = X2017)
+temp_mental_health <- mental_health2 %>% select(Code, percent)
+total <- merge(total, temp_mental_health, by.x = "iso", by.y = "Code")
+total <- rename(total, mental_health_percent = percent)
+temp_median_age <- median_age2 %>% select(Code, median)
+total <- merge(total, temp_median_age, by.x = "iso", by.y = "Code")
+total <- rename(total, median_age = median)
+
+
 
 server <- function(input, output) {
   # page one
@@ -101,17 +114,17 @@ server <- function(input, output) {
     options(warn=-1)
     
     if(req(input$caseType) == "Confirmed") {
-      p <- ggplot(world, aes(text = paste("Country:", name), color = Confirmed)) +
+      p <- ggplot(world, aes(text = paste("Country: ", name), color = Confirmed)) +
         geom_sf(aes(fill =Confirmed)) +
         scale_fill_distiller(type = "seq", palette = "RdPu", na.value = "white", direction = 1) +
         scale_color_distiller(type = "seq", palette = "RdPu", na.value = "#fee3db", direction = 1) 
     } else if(req(input$caseType) == "Death") {
-      p <- ggplot(world, aes(text = paste("Country:", name), color = Death)) +
+      p <- ggplot(world, aes(text = paste("Country: ", name), color = Death)) +
         geom_sf(aes(fill =Death))+
         scale_fill_distiller(type = "seq", palette = "GnBu", na.value = "white", direction = 1) +
         scale_color_distiller(type = "seq", palette = "GnBu", na.value = "#e6f5de", direction = 1) 
     } else if(req(input$caseType) == "Recovered") {
-      p <- ggplot(world, aes(text = paste("Country:", name), color = Recovered)) +
+      p <- ggplot(world, aes(text = paste("Country: ", name), color = Recovered)) +
         geom_sf(aes(fill = Recovered))+
         scale_fill_distiller(type = "seq", palette = "Oranges", na.value = "white", direction = 1) +
         scale_color_distiller(type = "seq", palette = "Oranges", na.value = "#fee3ca", direction = 1) 
@@ -123,7 +136,7 @@ server <- function(input, output) {
         na.omit() 
       world <- left_join(world, num_cases_1, by = c("adm0_a3"="iso"), copy = T)
       options(warn=-1)
-      p <- ggplot(world, aes(text = paste("Country:", name))) +
+      p <- ggplot(world, aes(text = paste("Country: ", name))) +
         geom_sf(aes(color=Vaccined, fill = Vaccined))+
         scale_fill_distiller(type = "seq", palette = "Greens", na.value = "white", direction = 1) +
         scale_color_distiller(type = "seq", palette = "Greens", na.value = "#e6f5e1", direction = 1) 
@@ -190,16 +203,14 @@ server <- function(input, output) {
     
     #draw a plot
     p <- ggplot(df_all, aes(x=Date, group = 1)) +
-      geom_area(size = 0.5, color = "pink", fill = "#fee3db", aes(y=Confirmed)) +
-      geom_area(size = 0.5, color = "orange", fill = "#fee3ca", aes(y=Recovered)) +
-      geom_area(size = 0.5, color = "lightgreen",  fill = "#e6f5de", aes(y=Death)) +
+      geom_area(size = 0.5, color = "white", fill = "#f874a5", aes(y=Confirmed)) +
+      geom_area(size = 0.5, color = "white", fill = "#fec28c", aes(y=Recovered)) +
+      geom_area(size = 0.5, color = "white",  fill = "#08589e", aes(y=Death)) +
       labs(title = paste0("Number of Cases in ", input$country), 
            x = "Date", y = "Number") + theme_light()
     ggplotly(p)
 
   })
-  
-  
   
   
   # page two
@@ -306,24 +317,89 @@ Substance Use Disorders at", y),
   
   
   
+  #page three
+  #scale data
+  total[,"Recovered"] = total$Recovered/sum(total$Recovered)
+  total[,"Confirmed"] = total$Confirmed/sum(total$Confirmed)
+  total[,"Death"] = total$Death/sum(total$Death)
+  total[,"NCD_value"] = total$NCD_value/sum(total$NCD_value)
+  total[,"mental_health_percent"] = total$mental_health_percent/sum(total$mental_health_percent)
+  total[,"median_age"] = total$median_age/sum(total$median_age)
   
-  # merge all tables together. total is the final result!!!
-  temp_NCD <- NCD2 %>% select(iso, X2017)
-  total <- merge(num_cases_1, temp_NCD, by.x = "iso", by.y = "iso")
-  total <- total[c(1:184),]
-  total <- rename(total, NCD_value = X2017)
-  temp_mental_health <- mental_health2 %>% select(Code, percent)
-  total <- merge(total, temp_mental_health, by.x = "iso", by.y = "Code")
-  total <- rename(total, mental_health_percent = percent)
-  temp_median_age <- median_age2 %>% select(Code, median)
-  total <- merge(total, temp_median_age, by.x = "iso", by.y = "Code")
-  total <- rename(total, median_age = median)
+  names(total) <- c("ISO3", "Country", "Recovered", "Confirmed", "Death", 
+                    "NCD", "Mental.Health", "Age")
+  #calculate vulnerability
+  total <- total %>% 
+    mutate(Vulnerability = ((Recovered*0.2 + Confirmed*0.2 + Death*0.2
+                            + NCD*0.1 + Mental.Health*0.1 + Age*0.2)*100))
+  
+  #vulnerability map
+  output$inter_world_v_map <- renderPlotly({
+    world2 <- ne_countries(returnclass = "sf")
+    # join tables
+    world2 <- left_join(world2, total, by = c("adm0_a3"="ISO3"), copy = T)
+    options(warn=-1)
+    
+    p <- ggplot(world2, aes(text = paste("Country: ", name, "\nVulnerability: ", Vulnerability, "%"), color = Vulnerability)) +
+      geom_sf(aes(fill = Vulnerability)) +
+      scale_fill_distiller(type = "seq", palette = "Greens", na.value = "white", direction = 1) +
+      scale_color_distiller(type = "seq", palette = "Greens", na.value = "#e6f5e1", direction = 1) +
+      theme_light() + 
+      labs(title= paste0("Country Vulnerability Assessment")) 
+    ggplotly(p, tooltip = c("text"))
+  })
+  
+  output$inter_country_pie <- renderPlot({
+    #pie chart for big-6 
+      pie <- total %>% 
+        filter(Country ==input$countryp) %>%
+        select(Country, 3:8)
+      pie2 <- data.frame(
+        Factor=names(pie)[2:7],
+        Value=as.numeric(as.vector(pie[1,2:7]))
+      )
+      # ggplot(pie2, aes(x="", y=Value, fill=Factor)) +
+      #   geom_bar(stat="identity", width=1, color="white") +
+      #   coord_polar("y", start=0) +
+      #   theme_void() +
+      #   scale_fill_brewer(palette = "Greens", 
+      #                     labels = paste0(pie2$Factor, " ", format(round(pie2$Value*100, 2), nsmall = 2))) +
+      #   theme(legend.position = "right")
+      
+      
+      # Compute percentages
+      pie2$fraction = pie2$Value / sum(pie2$Value)
+      # Compute the cumulative percentages (top of each rectangle)
+      pie2$ymax = cumsum(pie2$fraction)
+      # Compute the bottom of each rectangle
+      pie2$ymin = c(0, head(pie2$ymax, n=-1))
+      # Make the plot
+      ggplot(pie2, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Factor)) +
+        geom_rect() +
+        coord_polar(theta="y") +
+        xlim(c(1, 4)) +
+        theme_void() +
+        scale_fill_brewer(palette = "Greens", 
+                          labels = paste0(pie2$Factor, " ", format(round(pie2$Value*100, 2), nsmall = 2))) +
+        theme(legend.position = "right")
+     
+  })
+  
+  #rearrange total in asce order by vulnerability and get top 10
+  top <- total %>%
+    arrange(desc(Vulnerability)) %>%
+    slice_head(n=10) %>%
+    select(Country, Vulnerability)
+  top <- as.data.frame(t(top))
+  names(top) = top[1,]
+  output$table <- renderTable(top[2,])
+  
   
   
   # links
   url11 <- a("Bidirectional associations between COVID-19 and psychiatric disorder: 
            retrospective cohort studies of 62354 COVID-19 cases in the USA.", 
-           href="https://www.thelancet.com/journals/lanpsy/article/PIIS2215-0366(20)30462-4/fulltext#seccestitle150")
+             href="https://www.thelancet.com/journals/lanpsy/article/PIIS2215-0366(20)30462-4/fulltext#seccestitle150")
   url12 <- a("Mental disorders and risk of COVID-19-related mortality, hospitalisation, 
              and intensive care unit admission: a systematic review and meta-analysis.",
              href="https://www.thelancet.com/journals/lanpsy/article/PIIS2215-0366(21)00232-7/fulltext")
