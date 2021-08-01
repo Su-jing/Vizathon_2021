@@ -81,6 +81,7 @@ page_one <- tabPanel(
     choices = c("Confirmed", "Death", "Recovered"),
     selected = "Confirmed"
   ),
+  p("(The map may be loaded slowly)", style = "font-size:9px"),
   plotlyOutput("inter_world_case_map"),
   p("The map reveals that the Americas, Europe, and South-East Asia are the major areas where Covid-19 causes
     a great number of confirmed cases and deaths. Intuitively, the greater number of confirmed cases and deaths
@@ -282,6 +283,7 @@ page_three <- tabPanel(
     a number result representing the vulnerability associated with each country.
     The color of the map indicates the level of vulnerability, with a darker
     color meaning a higher level of vulnerability. "),
+  p("(The map may be loaded slowly)", style = "font-size:9px"),
   plotlyOutput("inter_world_v_map"),
   p("From this map, we can see that the US is the most vulnerable country based
     on the factors we consider. Also, the countries in Eastern Hemisphere seems 
