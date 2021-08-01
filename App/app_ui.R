@@ -93,7 +93,7 @@ page_one <- tabPanel(
     value instead, and thus more number of recovered cases would lead to a lower level of vulnerability."),
   
   
-  h3("1) Country Cumulative Reported Cases (Daily Trend)", style = "font-size:20px;"),
+  h3("2) Country Cumulative Reported Cases (Daily Trend)", style = "font-size:20px;"),
   p("This visualization shows the daily trend of the number of reported cases in the selected country from 22 January 2020 to 20 July 2021."),
   # daily change
   selectInput(
@@ -270,13 +270,29 @@ page_two <- tabPanel(
 page_three <- tabPanel(
   h2("Vulnerability Assessment"),
   titlePanel(h3("The Vulnerability Assessment of Each Country")),
-  plotlyOutput("inter_world_v_map"),
-  p("Using the formula"),
-  p("we make this heat map with
+  h3("1) Global Vulnerability Assessment Values", style = "font-size:20px;"),
+  p("As with previous discussions, we have decided weights for each of the
+    factors we consider in this framework. Based on the weights, we build
+    the following formula to assess vulnerability:"),
+  img(src='f.png', width = "808.8", height = "22.8"),
+  p("with some pre-processing of data, we intentially normalize the vulnerability values
+    so that they would floating around zero, which gives better mathematics and is convenient
+    for practice use."),
+  p("With the vulnerability values, we produce the following global geographic heatmap with
     a number result representing the vulnerability associated with each country.
-    From this map, we can see that USA is the most vulnerable country based
+    The color of the map indicates the level of vulnerability, with a darker
+    color meaning a higher level of vulnerability. "),
+  plotlyOutput("inter_world_v_map"),
+  p("From this map, we can see that the US is the most vulnerable country based
     on the factors we consider. Also, the countries in Eastern Hemisphere seems 
-    to be less vulnerable than the countries in Western Hemisphere."),
+    to be less vulnerable than the countries in Western Hemisphere. These prominent
+    charactistics revealed by the map can be a 
+    good indicator for future predictions."),
+
+  h3("2) Country Vulnerability Decomposition", style = "font-size:20px;"),
+  p("In this part, we could further explore why country gets their vulnerability value by
+    decomposing how the vulnerability id calculated. Thus we could know what we can do to
+    improve the countries situation."),
   sidebarLayout(
     sidebarPanel(
       selectInput(
@@ -290,10 +306,10 @@ page_three <- tabPanel(
     ),
     mainPanel(
       plotOutput("inter_country_pie"),
-      h3("Table of Top 10 Vulnerable Countries During COVID-19 Pandemic", 
-         style = "font-size: 15px")
+   
     )
   ),
+  h3("3) Table of Top 10 Vulnerable Countries During COVID-19 Pandemic", style = "font-size:20px;"),
   tableOutput('table')
 )
 
