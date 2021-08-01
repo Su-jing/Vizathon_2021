@@ -62,6 +62,7 @@ median_age2 <- read.csv("data/median_age_by_country2.csv")
 
 
 
+
 server <- function(input, output) {
   # page one
   #Geographic heat map
@@ -234,10 +235,6 @@ Substance Use Disorders at", y),
     ggplotly(p, tooltip = c("text"))
   })
   
-  # mental health analysis
-  output$mental_health_analysis <- renderText({
-    "blablabla (analysis aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)"
-  })
   
   
   # global average data for median age
@@ -270,10 +267,6 @@ Substance Use Disorders at", y),
     ggplotly(p, tooltip = c("text"))
   })
   
-  # mental health analysis
-  output$median_age_analysis <- renderText({
-    "blablabla (analysis aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa)"
-  })
   
   
   # global average data for NCD
@@ -325,5 +318,27 @@ Substance Use Disorders at", y),
   temp_median_age <- median_age2 %>% select(Code, median)
   total <- merge(total, temp_median_age, by.x = "iso", by.y = "Code")
   total <- rename(total, median_age = median)
+  
+  
+  # links
+  url11 <- a("Bidirectional associations between COVID-19 and psychiatric disorder: 
+           retrospective cohort studies of 62354 COVID-19 cases in the USA.", 
+           href="https://www.thelancet.com/journals/lanpsy/article/PIIS2215-0366(20)30462-4/fulltext#seccestitle150")
+  url12 <- a("Mental disorders and risk of COVID-19-related mortality, hospitalisation, 
+             and intensive care unit admission: a systematic review and meta-analysis.",
+             href="https://www.thelancet.com/journals/lanpsy/article/PIIS2215-0366(21)00232-7/fulltext")
+  output$link1 <- renderUI({
+    tagList("Reference 1: ", url11, "Reference 2: ", url12)
+  })
+  url2 <- a("The Elderly Are Most At Risk From The Coronavirus.",
+            href="https://www.weforum.org/agenda/2020/03/coronavirus-covid-19-elderly-older-people-health-risk/")
+  output$link2 <- renderUI({
+    tagList("Reference: ", url2)
+  })
+  url3 <- a("COVID-19 a double blow for chronic disease patients.",
+            href="https://www.sciencedaily.com/releases/2020/10/201023123141.htm")
+  output$link3 <- renderUI({
+    tagList("Reference: ", url3)
+  })
 }
 

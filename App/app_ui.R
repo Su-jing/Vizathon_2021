@@ -87,11 +87,22 @@ page_one <- tabPanel(
 
 page_two <- tabPanel(
   h2("Second-order Impacts"),
-  titlePanel(h3("The second-order impacts of Covid-19, inspect from four aspects: gender, age, 
-               history of diseases, and mental health")),
+  titlePanel(h3("For the groups of people being more vulnerable during the 
+  second-order impacts of Covid-19 pandemic, inspect from three aspects: 
+  mental health, aging population, and history of NCDs with analysis.")),
   
   # Mental Health
-  h3("1) mental health blablablablablabla", style = "font-size:20px;"),
+  h3("1) Mental Health", style = "font-size:20px;"),
+  uiOutput("link1"),
+  p("Many research has shown that there are bidirectional associations 
+  between COVID-19 and psychiatric disorder, and patients with a history of 
+  psychiatric illness are at a higher risk of being diagnosed with COVID-19.
+  This measn that mental disorders might be a risk factor for severe COVID-19.
+  
+  Thus, the seriousness of mental problems can be considered as a factor in our 
+  evaluation framework to assess the vulnerability of a country."),
+  p("Now, lets first visualize the overall trend of mental disorder problem from
+  1992 to 2017."),
   sidebarLayout(
     sidebarPanel(
       radioButtons(
@@ -109,13 +120,38 @@ page_two <- tabPanel(
       )
     ),
     mainPanel(
-      plotlyOutput("mental_health_plot"),
-      textOutput("mental_health_analysis")
+      plotlyOutput("mental_health_plot")
     )
   ),
+  p("From the first visualization, we use the average percentage of mental
+    and substance use disorders in the world to visualize the global trend from 1992
+    to 2017. We can know that the line is slightly decreasing but almost
+    remains at the same level, which is about 12.5%-13%. 
+    By animating the histograms of the percentage data
+    from all countries each year, we can see that the histogram doesn't change
+    much.
+    Therefore, continuing with this trend, the percentage would still be 12%-13%
+    at the start of COVID-19 pandemic."),
+  p("Due to this relatively stable situation
+    of the global mental health problem, ", span("10% ", style = "color: red"),
+    "is a reasonable weight for mental health factor in our evaluation
+    framework."),
   
   # Median Age
-  h3("2) median age blablablablablabla", style = "font-size:20px;"),
+  h3("2) Aging Population", style = "font-size:20px;"),
+  uiOutput("link2"),
+  p("Studies also show that the fatality rate for people over 80 from COVID-19 
+    is almost 15% according to data from China and that there's a direct 
+    correlation between mortality and age. There are two main reasons of this.
+    First, The elderly are more likely to get acute respiratory distress syndrome, 
+    the acute lung injury that is causing many of the deaths. Second, a 
+    side-effect of the impact of coronavirus is that the health system is
+    overwhelmed, so the elderly are hospitalized on a daily basis at much higher 
+    rates than younger people and they are not going to get the quality care 
+    they deserve during the outbreak."),
+  p("Thus, we use aging population as a factor in our vulnerability evaluation
+    framework."),
+  p("Lets take a look at the global trend of aging population problem."),
   sidebarLayout(
     sidebarPanel(
       radioButtons(
@@ -133,13 +169,28 @@ page_two <- tabPanel(
       )
     ),
     mainPanel(
-      plotlyOutput("median_age_plot"),
-      textOutput("median_age_analysis")
+      plotlyOutput("median_age_plot")
     )
   ),
+  p("From the first visualization, we take the average of median ages of all
+    countries for each year, which shows the global trend.
+    Notice that this trend goes beyong 2021 year and predicts the global median
+    age at 2050. We can see that the line is obviously increasing, which means
+    that there are more older people now and much more in the near future than
+    in the past. 
+    By animating the histograms of the median ages
+    of all countries each year, we can clearly see that the whole histogram is
+    'moving to the right'.  
+    Therefore, continuing with this trend, the aging population problem is getting
+    more and more serious globally both now and in the short run."),
+  p("Due to this fierce increment of the number of older people, we decide to
+    use ", span("20% ", style = "color: red"),
+    "as the weight for aging population factor in our evaluation
+    framework."),
   
   # NCD
-  h3("3) NCDs blablablablablabla", style = "font-size:20px;"),
+  h3("3) Non-communicable Diseases", style = "font-size:20px;"),
+  uiOutput("link3"),
   sidebarLayout(
     sidebarPanel(
       radioButtons(
