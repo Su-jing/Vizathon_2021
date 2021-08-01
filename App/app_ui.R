@@ -13,10 +13,33 @@ library(countrycode)
 
 home <- tabPanel(
   h2("Home"),
-  titlePanel(h3("General introction of app")),
+  titlePanel(h3("General Introduction of This App")),
   p(span("Globally, ", style = "color: red"), "as of 6:17pm CEST, 29 July 2021, there have been 195,886,929 
-    confirmed cases of COVID-19, including 4,189,148 deaths, reported to WHO. 
-    As of 28 July 2021, a total of 3,839,816,037 vaccine doses have been administered.")
+    confirmed cases of COVID-19, including 4,189,148 deaths, reported by WHO. 
+    As of 28 July 2021, a total of 3,839,816,037 vaccine doses have been administered."),
+  h3("1. Covid-19 Overview", style = "font-size:20px;"),
+  p("In page 1, we make visualizations for trend of the COVID-19 pandemic from
+    a global perspective and a specific country perspective.
+    We also analyze the number of ", span("confirmed cases, death cases, and cured 
+    cases",style="color: red"),", respectively, with ", span("a weight assigned to each one", style = "color: red"),
+    " , which is used for vulnerability assessment in page 3."),
+  h3("2. Second-order Impacts", style = "font-size:20px;"),
+  p("In page 2, from public health persepctive, we visualize and analyze 
+    three more vulnerable groups of people during the COVID-19 pandemic: ",
+    span("mental health, aging population, and people with non-communicable diseases",style="color: red"),
+    ". For each of these three factors, we also ", span("assign a weight", style = "color: red"), 
+    " to it, which is used for vulnerability assessment in page 3."),
+  h3("3. Vulnerability Assessment", style = "font-size:20px;"),
+  p("In page 3, for each country, we use the following formula to assess vulnerability: "),
+  p(span("[(confirmation rate*0.25 + death rate*0.25 + 
+                       NCDs rate*0.15 + mental disorders rate*0.15 + aging population rate*0.2) * 0.5 
+                       + cure rate*(-0.5)] * 100%", style="color: red")),
+  p("where 0.25, 0.25, 0.15, 0.15, 0.2, and -0.5 are weights we used for these 6 factors 
+    in our evaluation framework, which have detailed explainations in page 1 and 2."),
+  p("The final result of vulnerability of each country is a number floating around 0.
+    Thus, if the result is negative, we can say that this country is relatively
+    less vulnerable. If the result is positive, we can say that this country
+    is relatively more vulnerable.")
 )
 
 
@@ -102,17 +125,17 @@ page_two <- tabPanel(
       plotlyOutput("mental_health_plot")
     )
   ),
-  p("From the first visualization, we use the average percentage of mental
+  p("From the first visualization, we use the average percentage of people with mental
     and substance use disorders in the world to visualize the global trend from 1992
     to 2017. We can know that the line is slightly decreasing but almost
     remains at the same level, which is about 12.5%-13%. 
     By animating the histograms of the percentage data
     from all countries each year, we can see that the histogram doesn't change
     much.
-    Therefore, continuing with this trend, the percentage would still be 12%-13%
+    Therefore, continuing with this trend, the average percentage would still be 12%-13%
     at the start of COVID-19 pandemic."),
   p("Due to this relatively stable situation
-    of the global mental health problem, ", span("10% ", style = "color: red"),
+    of the global mental health problem, ", span("15% ", style = "color: red"),
     "is a reasonable weight for mental health factor in our evaluation
     framework."),
   
@@ -154,7 +177,7 @@ page_two <- tabPanel(
   p("From the first visualization, we take the average of median ages of all
     countries for each year, which shows the global trend.
     Notice that this trend goes beyong 2021 year and predicts the global median
-    age at 2050. We can see that the line is obviously increasing, which means
+    age even at 2050. We can see that the line is obviously increasing, which means
     that there are more older people now and much more in the near future than
     in the past. 
     By animating the histograms of the median ages
@@ -168,8 +191,20 @@ page_two <- tabPanel(
     framework."),
   
   # NCD
-  h3("3) Non-communicable Diseases", style = "font-size:20px;"),
+  h3("3) Non-communicable Diseases (NCDs)", style = "font-size:20px;"),
   uiOutput("link3"),
+  p("We use the prevalence of non-communicable diseases in each country as the
+    third factor in our vulnerability evaluation framework.
+    A research from UNSW Sydney found that people with NCDs are more vulnerable 
+    to catching and dying from COVID-19.
+    There has never been a more dangerous time than the COVID-19 pandemic 
+    for people with non-communicable diseases (NCDs). Scientists mentioned
+    two main reasons about this. First, during the pandemic, it is more likely
+    for them to be exposed to NCD risk factors, such as substance abuse, social 
+    isolation and unhealthy diets. Second, COVID-19 disrupted essential public 
+    health services which people with NCDs rely on to manage their conditions."),
+  p("Lets take a look at the global trend of Non-communicabl diseases
+    measured by disability-adjusted life year (DALY)."),
   sidebarLayout(
     sidebarPanel(
       radioButtons(
@@ -190,12 +225,22 @@ page_two <- tabPanel(
       plotlyOutput("NCD_plot"),
       textOutput("NCD_analysis")
     )
-  )
+  ),
+  p("From the first visualization of global trend, we can see that the DALY rates
+    decrease by year.
+    This means that fewer and fewer people get NCDs each year.
+    By animating the histograms of DALY rates
+    of all countries each year, we can clearly see that the whole histogram is
+    gradually 'moving to the left'.  
+    Therefore, continuing with this trend, there are fewer people that suffer
+    NCDs both now and in the near future than in the past."),
+  p("Due to this gradual decrement, we decide to use ", span("15% ", style = "color: red"),
+    "as the weight for NCD factor in our evaluation framework.")
 )
 
 
 page_three <- tabPanel(
-  h2("Vulnerability"),
+  h2("Vulnerability Assessment"),
   titlePanel(h3("The vulnerability assessment of each country, using data/statistics from previous sections")),
   plotlyOutput("inter_world_v_map"),
   p("xxxxx"),
@@ -220,7 +265,7 @@ page_three <- tabPanel(
 
 
 ui <- shinyUI(fluidPage(
-  p("By Ryan & Wuwei", style = "font-size: 10px; text-align: left"),
+  p("By Ryan & Wuwei (Public Health Track)", style = "font-size: 10px; text-align: left"),
   h1(span("Covid-19", style = "font-weight: 300; color: red",), 
      "Trend Visualization and Vulnerability Assessment"),
   includeCSS("style.css"),
