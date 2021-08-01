@@ -10,6 +10,7 @@ library(RColorBrewer)
 library(classInt)
 library(rnaturalearth)
 library(countrycode)
+library(rgeos)
 
 recover <- read.csv("data/time_series_covid19_recovered_global.csv", stringsAsFactors = FALSE)
 confirm <- read.csv("data/time_series_covid19_confirmed_global.csv", stringsAsFactors = FALSE)
